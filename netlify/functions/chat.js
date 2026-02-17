@@ -1,7 +1,7 @@
 export const handler = async (event) => {
   try {
     const { message, threadId: clientThreadId } = JSON.parse(event.body);
-    const assistantId = "asst_jCmKsINbuZSpcxRqkZYMv0wp"; // 🔥 replace with your actual ELi Wise assistant ID
+    const assistantId = "asst_jCmKsINbuZSpcxRqkZYMv0wp"; // 🔥 replace with your ELi Wise assistant ID
 
     if (!message) {
       return { statusCode: 400, body: JSON.stringify({ reply: "No message provided." }) };
@@ -9,8 +9,12 @@ export const handler = async (event) => {
 
     let thread = { id: clientThreadId };
 
+    // ------------------------
     // 1️⃣ Create thread only once and bind it to the assistant
+    // ------------------------
     if (!thread.id) {
+      console.log("LOG: Creating thread for assistant:", assistantId);
+
       const threadRes = await fetch("https://api.openai.com/v1/threads", {
         method: "POST",
         headers: {
@@ -18,20 +22,22 @@ export const handler = async (event) => {
           "Content-Type": "application/json",
           "OpenAI-Beta": "assistants=v2"
         },
-        body: JSON.stringify({ assistant: assistantId }) // bind thread to your assistant
+        body: JSON.stringify({ assistant: assistantId }) // Bind thread to ELi Wise
       });
 
-      if (!threadRes.ok) {
-        const errText = await threadRes.text();
-        console.error("Thread creation failed:", errText);
-        throw new Error("Failed to create thread");
-      }
+      const threadResText = await threadRes.text();
+      console.log("LOG: Thread creation response:", threadResText);
 
-      thread = await threadRes.json();
-      console.log("Created thread:", thread.id);
+      if (!threadRes.ok) throw new Error("Thread creation failed");
+
+      thread = JSON.parse(threadResText);
     }
 
+    // ------------------------
     // 2️⃣ Add user message to the thread
+    // ------------------------
+    console.log("LOG: Adding user message:", message);
+
     const msgRes = await fetch(`https://api.openai.com/v1/threads/${thread.id}/messages`, {
       method: "POST",
       headers: {
@@ -42,13 +48,14 @@ export const handler = async (event) => {
       body: JSON.stringify({ role: "user", content: message })
     });
 
-    if (!msgRes.ok) {
-      const errText = await msgRes.text();
-      console.error("Add message failed:", errText);
-      throw new Error("Failed to add user message");
-    }
+    const msgResText = await msgRes.text();
+    console.log("LOG: Add message response:", msgResText);
 
+    if (!msgRes.ok) throw new Error("Failed to add user message");
+
+    // ------------------------
     // 3️⃣ Run the assistant
+    // ------------------------
     const runRes = await fetch(`https://api.openai.com/v1/threads/${thread.id}/runs`, {
       method: "POST",
       headers: {
@@ -59,17 +66,18 @@ export const handler = async (event) => {
       body: JSON.stringify({ assistant_id: assistantId })
     });
 
-    if (!runRes.ok) {
-      const errText = await runRes.text();
-      console.error("Assistant run failed:", errText);
-      throw new Error("Assistant run failed");
-    }
+    const runResText = await runRes.text();
+    console.log("LOG: Assistant run response:", runResText);
 
-    const runData = await runRes.json();
+    if (!runRes.ok) throw new Error("Assistant run failed");
+
+    const runData = JSON.parse(runResText);
     const runId = runData.id;
     let runStatus = runData.status;
 
+    // ------------------------
     // 4️⃣ Poll until the assistant finishes
+    // ------------------------
     while (runStatus !== "completed") {
       await new Promise(r => setTimeout(r, 1000));
       const statusRes = await fetch(`https://api.openai.com/v1/threads/${thread.id}/runs/${runId}`, {
@@ -79,8 +87,11 @@ export const handler = async (event) => {
         }
       });
 
-      const statusData = await statusRes.json();
+      const statusText = await statusRes.text();
+      const statusData = JSON.parse(statusText);
       runStatus = statusData.status;
+
+      console.log("LOG: Run status poll:", runStatus);
 
       if (runStatus === "failed") {
         console.error("Assistant run failed during polling");
@@ -88,7 +99,9 @@ export const handler = async (event) => {
       }
     }
 
-    // 5️⃣ Fetch all messages to get the latest assistant reply
+    // ------------------------
+    // 5️⃣ Fetch all messages to get latest assistant reply
+    // ------------------------
     const messagesRes = await fetch(`https://api.openai.com/v1/threads/${thread.id}/messages`, {
       headers: {
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
@@ -96,7 +109,10 @@ export const handler = async (event) => {
       }
     });
 
-    const messagesData = await messagesRes.json();
+    const messagesText = await messagesRes.text();
+    console.log("LOG: Fetch messages response:", messagesText);
+
+    const messagesData = JSON.parse(messagesText);
     const assistantReply =
       messagesData.data
         .filter(m => m.role === "assistant")
