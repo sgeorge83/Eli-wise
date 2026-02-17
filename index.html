@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat with ELi Wise</title>
+  <style>
+    body { font-family: Arial; display:flex; flex-direction:column; height:100vh; margin:0; }
+    #chat { flex:1; overflow-y:auto; padding:10px; background:#f0f0f0; }
+    .message { margin:5px 0; }
+    .user { text-align:right; color:blue; }
+    .eli { text-align:left; color:green; }
+    #inputArea { display:flex; border-top:1px solid #ccc; }
+    #inputArea input { flex:1; padding:10px; border:none; outline:none; }
+    #inputArea button { padding:10px; border:none; background:#4CAF50; color:white; cursor:pointer; }
+  </style>
+</head>
+<body>
+<div id="chat"></div>
+<div id="inputArea">
+  <input type="text" id="userInput" placeholder="Type a message..." />
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+const chatDiv = document.getElementById('chat');
+const inputField = document.getElementById('userInput');
+
+async function sendMessage() {
+  const message = inputField.value.trim();
+  if(!message) return;
+
+  addMessage(message, 'user');
+  inputField.value = '';
+  scrollToBottom();
+
+  try {
+    const response = await fetch('/.netlify/functions/chat', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ message })
+    });
+    const data = await response.json();
+    addMessage(data.reply, 'eli');
+    scrollToBottom();
+  } catch(err) {
+    addMessage("Error: " + err.message, 'eli');
+    scrollToBottom();
+  }
+}
+
+function addMessage(text, sender) {
+  const msg = document.createElement('div');
+  msg.className = 'message ' + sender;
+  msg.textContent = text;
+  chatDiv.appendChild(msg);
+}
+
+function scrollToBottom() { chatDiv.scrollTop = chatDiv.scrollHeight; }
+inputField.addEventListener('keypress', e => { if(e.key==='Enter') sendMessage(); });
+</script>
+</body>
+</html>
