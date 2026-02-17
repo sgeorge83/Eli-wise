@@ -1,104 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat with ELi Wise</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      margin: 0;
-      position: relative;
-      background: #f0f0f0;
-      overflow: hidden;
-    }
-
-    /* Watermark */
-    body::before {
-      content: "ELI-WISE";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-30deg);
-      font-size: 6em;
-      color: rgba(0,0,0,0.05);
-      z-index: 0;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    #chat {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px 10px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .message {
-      margin: 8px 0;
-      padding: 8px 12px;
-      border-radius: 10px;
-      max-width: 80%;
-      word-wrap: break-word;
-      font-size: 1rem;
-    }
-
-    .user {
-      text-align: right;
-      color: #000000;
-      background: #e0e0e0;
-      margin-left: auto;
-    }
-
-    .eli {
-      text-align: left;
-      color: #333333;
-      background: #ffffff;
-      margin-right: auto;
-    }
-
-    /* Typing indicator style */
-    .typing {
-      font-style: italic;
-      color: #666666;
-    }
-
-    #inputArea {
-      display: flex;
-      border-top: 1px solid #ccc;
-      padding: 5px;
-      background: #fff;
-      z-index: 1;
-    }
-
-    #inputArea input {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
-      font-size: 1rem;
-    }
-
-    #inputArea button {
-      padding: 10px 15px;
-      margin-left: 5px;
-      border: none;
-      background: #4CAF50;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    #inputArea button:hover {
-      background: #45a049;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat with ELi Wise</title>
+<style>
+  body { font-family: Arial, sans-serif; display:flex; flex-direction:column; height:100vh; margin:0; position:relative; background:#f0f0f0; overflow:hidden; }
+  body::before { content: "ELI-WISE"; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%) rotate(-30deg); font-size:6em; color:rgba(0,0,0,0.05); z-index:0; pointer-events:none; user-select:none; }
+  #chat { flex:1; overflow-y:auto; padding:20px 10px; position:relative; z-index:1; }
+  .message { margin:8px 0; padding:8px 12px; border-radius:10px; max-width:80%; word-wrap:break-word; font-size:1rem; }
+  .user { text-align:right; color:#000000; background:#e0e0e0; margin-left:auto; }
+  .eli { text-align:left; color:#333333; background:#ffffff; margin-right:auto; }
+  .typing { font-style:italic; color:#666666; }
+  #inputArea { display:flex; border-top:1px solid #ccc; padding:5px; background:#fff; z-index:1; }
+  #inputArea input { flex:1; padding:10px; border:1px solid #ccc; border-radius:6px; outline:none; font-size:1rem; }
+  #inputArea button { padding:10px 15px; margin-left:5px; border:none; background:#4CAF50; color:white; border-radius:6px; cursor:pointer; font-size:1rem; }
+  #inputArea button:hover { background:#45a049; }
+</style>
 </head>
 <body>
   <div id="chat"></div>
@@ -107,68 +25,66 @@
     <button onclick="sendMessage()">Send</button>
   </div>
 
-  <script>
-    const chatDiv = document.getElementById('chat');
-    const inputField = document.getElementById('userInput');
-    let threadId = null; // session thread ID
-    let typingElement = null; // typing indicator
+<script>
+const chatDiv = document.getElementById('chat');
+const inputField = document.getElementById('userInput');
+let threadId = null;
+let typingElement = null;
 
-    async function sendMessage() {
-      const message = inputField.value.trim();
-      if (!message) return;
+async function sendMessage() {
+  const message = inputField.value.trim();
+  if (!message) return;
 
-      addMessage(message, 'user');
-      inputField.value = '';
-      scrollToBottom();
+  addMessage(message, 'user');
+  inputField.value = '';
+  scrollToBottom();
 
-      // Show typing indicator
-      typingElement = addMessage("ELI-WISE is typing...", 'eli', true);
-      scrollToBottom();
+  // Show typing
+  typingElement = addMessage("ELI-WISE is typing...", 'eli', true);
+  scrollToBottom();
 
-      try {
-        const response = await fetch('/.netlify/functions/chat', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ message, threadId })
-        });
+  try {
+    const response = await fetch('/.netlify/functions/chat', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ message, threadId })
+    });
 
-        const data = await response.json();
+    const data = await response.json();
 
-        // Remove typing indicator
-        if (typingElement) {
-          chatDiv.removeChild(typingElement);
-          typingElement = null;
-        }
-
-        addMessage(data.reply, 'eli');
-        scrollToBottom();
-
-        if (!threadId && data.threadId) {
-          threadId = data.threadId;
-        }
-
-      } catch(err) {
-        if (typingElement) {
-          chatDiv.removeChild(typingElement);
-          typingElement = null;
-        }
-        addMessage("Error: " + err.message, 'eli');
-        scrollToBottom();
-      }
+    if (typingElement) {
+      chatDiv.removeChild(typingElement);
+      typingElement = null;
     }
 
-    function addMessage(text, sender, isTyping=false) {
-      const msg = document.createElement('div');
-      msg.className = 'message ' + sender;
-      if (isTyping) msg.classList.add('typing');
-      msg.textContent = text;
-      chatDiv.appendChild(msg);
-      return msg;
+    addMessage(data.reply, 'eli');
+    scrollToBottom();
+
+    if (!threadId && data.threadId) {
+      threadId = data.threadId;
     }
+  } catch(err) {
+    if (typingElement) {
+      chatDiv.removeChild(typingElement);
+      typingElement = null;
+    }
+    addMessage("Error: " + err.message, 'eli');
+    scrollToBottom();
+  }
+}
 
-    function scrollToBottom() { chatDiv.scrollTop = chatDiv.scrollHeight; }
+function addMessage(text, sender, isTyping=false) {
+  const msg = document.createElement('div');
+  msg.className = 'message ' + sender;
+  if (isTyping) msg.classList.add('typing');
+  msg.textContent = text;
+  chatDiv.appendChild(msg);
+  return msg;
+}
 
-    inputField.addEventListener('keypress', e => { if(e.key==='Enter') sendMessage(); });
-  </script>
+function scrollToBottom() { chatDiv.scrollTop = chatDiv.scrollHeight; }
+
+inputField.addEventListener('keypress', e => { if(e.key==='Enter') sendMessage(); });
+</script>
 </body>
 </html>
