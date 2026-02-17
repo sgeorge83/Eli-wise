@@ -1,11 +1,18 @@
 export const handler = async (event) => {
   try {
     const { message, threadId: clientThreadId } = JSON.parse(event.body);
-    const assistantId = "asst_jCmKsINbuZSpcxRqkZYMv0wp"; // 🔥 replace with your real ELi Wise ID
+    const assistantId = "asst_jCmKsINbuZSpcxRqkZYMv0wp"; // 🔥 replace with your ELi Wise ID
+
+    if (!message) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ reply: "No message provided." })
+      };
+    }
 
     let thread = { id: clientThreadId };
 
-    // 1️⃣ Create a new thread if first message
+    // 1️⃣ Create new thread if it doesn't exist
     if (!thread.id) {
       const threadRes = await fetch("https://api.openai.com/v1/threads", {
         method: "POST",
@@ -22,9 +29,10 @@ export const handler = async (event) => {
       }
 
       thread = await threadRes.json();
+      console.log("Created new thread:", thread.id);
     }
 
-    // 2️⃣ Add user message to thread
+    // 2️⃣ Add user message to the thread
     const msgRes = await fetch(`https://api.openai.com/v1/threads/${thread.id}/messages`, {
       method: "POST",
       headers: {
@@ -40,10 +48,10 @@ export const handler = async (event) => {
 
     if (!msgRes.ok) {
       const errText = await msgRes.text();
-      throw new Error(`Add message failed: ${errText}`);
+      throw new Error(`Failed to add user message: ${errText}`);
     }
 
-    // 3️⃣ Run assistant
+    // 3️⃣ Run the assistant
     const runRes = await fetch(`https://api.openai.com/v1/threads/${thread.id}/runs`, {
       method: "POST",
       headers: {
@@ -59,11 +67,11 @@ export const handler = async (event) => {
       throw new Error(`Assistant run failed: ${errText}`);
     }
 
-    const run = await runRes.json();
-    let runStatus = run.status;
-    const runId = run.id;
+    const runData = await runRes.json();
+    let runStatus = runData.status;
+    const runId = runData.id;
 
-    // 4️⃣ Poll until assistant completes
+    // 4️⃣ Poll for completion
     while (runStatus !== "completed") {
       await new Promise(resolve => setTimeout(resolve, 1000));
       const statusRes = await fetch(
@@ -78,10 +86,13 @@ export const handler = async (event) => {
 
       const statusData = await statusRes.json();
       runStatus = statusData.status;
-      if (runStatus === "failed") throw new Error("Assistant run failed");
+
+      if (runStatus === "failed") {
+        throw new Error("Assistant run failed.");
+      }
     }
 
-    // 5️⃣ Get all messages in thread
+    // 5️⃣ Retrieve all messages in the thread
     const messagesRes = await fetch(`https://api.openai.com/v1/threads/${thread.id}/messages`, {
       headers: {
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
@@ -91,10 +102,10 @@ export const handler = async (event) => {
 
     const messagesData = await messagesRes.json();
 
-    // Get the latest assistant message
+    // Get the latest assistant reply
     const assistantReply =
       messagesData.data.filter(m => m.role === "assistant").slice(-1)[0]?.content[0]?.text?.value
-      || "No response.";
+      || "ELi Wise could not generate a response.";
 
     return {
       statusCode: 200,
@@ -102,10 +113,10 @@ export const handler = async (event) => {
     };
 
   } catch (error) {
-    console.error("Function error:", error);
+    console.error("ELi Wise Function Error:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ reply: "Error contacting ELi Wise." })
+      body: JSON.stringify({ reply: "Error contacting ELi Wise. Check logs." })
     };
   }
 };
