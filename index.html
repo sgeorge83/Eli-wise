@@ -16,7 +16,7 @@
       overflow: hidden;
     }
 
-    /* ELI-WISE watermark */
+    /* Watermark */
     body::before {
       content: "ELI-WISE";
       position: absolute;
@@ -24,7 +24,7 @@
       left: 50%;
       transform: translate(-50%, -50%) rotate(-30deg);
       font-size: 6em;
-      color: rgba(0,0,0,0.05); /* faint */
+      color: rgba(0,0,0,0.05);
       z-index: 0;
       pointer-events: none;
       user-select: none;
@@ -35,7 +35,7 @@
       overflow-y: auto;
       padding: 20px 10px;
       position: relative;
-      z-index: 1; /* above watermark */
+      z-index: 1;
     }
 
     .message {
@@ -49,16 +49,22 @@
 
     .user {
       text-align: right;
-      color: #000000; /* user messages black */
+      color: #000000;
       background: #e0e0e0;
       margin-left: auto;
     }
 
     .eli {
       text-align: left;
-      color: #333333; /* ELi Wise dark grey */
+      color: #333333;
       background: #ffffff;
       margin-right: auto;
+    }
+
+    /* Typing indicator style */
+    .typing {
+      font-style: italic;
+      color: #666666;
     }
 
     #inputArea {
@@ -104,7 +110,8 @@
   <script>
     const chatDiv = document.getElementById('chat');
     const inputField = document.getElementById('userInput');
-    let threadId = null; // store session thread
+    let threadId = null; // session thread ID
+    let typingElement = null; // typing indicator
 
     async function sendMessage() {
       const message = inputField.value.trim();
@@ -112,6 +119,10 @@
 
       addMessage(message, 'user');
       inputField.value = '';
+      scrollToBottom();
+
+      // Show typing indicator
+      typingElement = addMessage("ELI-WISE is typing...", 'eli', true);
       scrollToBottom();
 
       try {
@@ -122,6 +133,13 @@
         });
 
         const data = await response.json();
+
+        // Remove typing indicator
+        if (typingElement) {
+          chatDiv.removeChild(typingElement);
+          typingElement = null;
+        }
+
         addMessage(data.reply, 'eli');
         scrollToBottom();
 
@@ -130,16 +148,22 @@
         }
 
       } catch(err) {
+        if (typingElement) {
+          chatDiv.removeChild(typingElement);
+          typingElement = null;
+        }
         addMessage("Error: " + err.message, 'eli');
         scrollToBottom();
       }
     }
 
-    function addMessage(text, sender) {
+    function addMessage(text, sender, isTyping=false) {
       const msg = document.createElement('div');
       msg.className = 'message ' + sender;
+      if (isTyping) msg.classList.add('typing');
       msg.textContent = text;
       chatDiv.appendChild(msg);
+      return msg;
     }
 
     function scrollToBottom() { chatDiv.scrollTop = chatDiv.scrollHeight; }
