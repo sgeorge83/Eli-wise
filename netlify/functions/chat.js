@@ -9,7 +9,8 @@ export const handler = async (event) => {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "OpenAI-Beta":"assistants=v2"
       }
     });
 
@@ -20,7 +21,8 @@ export const handler = async (event) => {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "OpenAI-Beta":"assistants=v2"
       },
       body: JSON.stringify({
         role: "user",
@@ -33,7 +35,8 @@ export const handler = async (event) => {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "OpenAI-Beta":"assistants=v2"
       },
       body: JSON.stringify({
         assistant_id: assistantId
@@ -53,7 +56,8 @@ export const handler = async (event) => {
         `https://api.openai.com/v1/threads/${thread.id}/runs/${runId}`,
         {
           headers: {
-            "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+            "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+            "OpenAI-Beta":"assistants=v2"
           }
         }
       );
@@ -71,7 +75,8 @@ export const handler = async (event) => {
       `https://api.openai.com/v1/threads/${thread.id}/messages`,
       {
         headers: {
-          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+          "OpenAI-Beta":"assistants=v2"
         }
       }
     );
