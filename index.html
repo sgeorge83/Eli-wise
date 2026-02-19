@@ -65,19 +65,32 @@
 const chatDiv = document.getElementById('chat');
 const inputField = document.getElementById('userInput');
 let threadId = null;
-let typingTimeout = null;
+
+// Add message to chat
+function addMessage(text, sender, isTyping=false){
+  const msg = document.createElement('div');
+  msg.className = 'message ' + sender;
+  if(isTyping) msg.classList.add('typing');
+  msg.textContent = text;
+  chatDiv.appendChild(msg);
+  scrollToBottom();
+  return msg;
+}
+
+function scrollToBottom() {
+  chatDiv.scrollTop = chatDiv.scrollHeight;
+}
 
 async function sendMessage() {
   const message = inputField.value.trim();
-  if (!message) return;
-
+  if(!message) return;
+  
+  // Show user message
   addMessage(message, 'user');
   inputField.value = '';
-  scrollToBottom();
 
-  // Show typing for 1.5 seconds
-  const typingElement = addMessage("ELI-WISE is typing...", 'eli', true);
-  scrollToBottom();
+  // Show typing
+  const typingEl = addMessage("ELI-WISE is typing...", 'eli', true);
 
   try {
     const response = await fetch('/api/chat', {
@@ -85,39 +98,25 @@ async function sendMessage() {
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ message, threadId })
     });
-
     const data = await response.json();
 
     // Remove typing
-    chatDiv.removeChild(typingElement);
+    chatDiv.removeChild(typingEl);
 
     // Add assistant reply
     addMessage(data.reply, 'eli');
-    scrollToBottom();
 
-    // Save threadId for next messages
-    if (data.threadId) threadId = data.threadId;
+    // Save threadId for multi-turn
+    if(data.threadId) threadId = data.threadId;
 
   } catch(err) {
-    chatDiv.removeChild(typingElement);
+    chatDiv.removeChild(typingEl);
     addMessage("Error: " + err.message, 'eli');
-    scrollToBottom();
   }
 }
 
-function addMessage(text, sender, isTyping=false) {
-  const msg = document.createElement('div');
-  msg.className = 'message ' + sender;
-  if (isTyping) msg.classList.add('typing');
-  msg.textContent = text;
-  chatDiv.appendChild(msg);
-  return msg;
-}
-
-function scrollToBottom() { chatDiv.scrollTop = chatDiv.scrollHeight; }
-
-inputField.addEventListener('keypress', e => { 
-  if (e.key === 'Enter') sendMessage(); 
+inputField.addEventListener('keypress', e=>{
+  if(e.key==='Enter') sendMessage();
 });
 </script>
 </body>
