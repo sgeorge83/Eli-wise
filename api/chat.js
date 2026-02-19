@@ -1,7 +1,5 @@
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ reply: "Method not allowed" });
-  }
+  if (req.method !== "POST") return res.status(405).json({ reply: "Method not allowed" });
 
   try {
     const { message, threadId } = req.body;
@@ -15,84 +13,36 @@ export default async function handler(req, res) {
 
     let currentThreadId = threadId;
 
-    // 1️⃣ Create thread if it doesn't exist
+    // Create thread if not exist
     if (!currentThreadId) {
-      const threadResponse = await fetch("https://api.openai.com/v1/threads", {
+      const threadResp = await fetch("https://api.openai.com/v1/threads", {
         method: "POST",
         headers
       });
-      const threadData = await threadResponse.json();
+      const threadData = await threadResp.json();
       currentThreadId = threadData.id;
     }
 
-    // 2️⃣ Add user message to the thread
-    await fetch(`https://api.openai.com/v1/threads/${currentThreadId}/messages`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ role: "user", content: message })
-    });
-
-    // 3️⃣ Get all messages from the thread for full context
-    const messagesResponse = await fetch(`https://api.openai.com/v1/threads/${currentThreadId}/messages`, {
-      method: "GET",
-      headers
-    });
-    const messagesData = await messagesResponse.json();
-
-    // Format messages for assistant run
-    const formattedMessages = messagesData.data.map(msg => ({
-      role: msg.role,
-      content: msg.content.map(c => c.text?.value || "").join("\n")
-    }));
-
-    // 4️⃣ Create a run with full conversation context
-    const runResponse = await fetch(`https://api.openai.com/v1/threads/${currentThreadId}/runs`, {
+    // Send user message and get assistant reply directly
+    const response = await fetch(`https://api.openai.com/v1/threads/${currentThreadId}/messages`, {
       method: "POST",
       headers,
       body: JSON.stringify({
+        role: "user",
+        content: message,
         assistant_id: process.env.ASSISTANT_ID,
-        input: {
-          messages: formattedMessages
-        }
       })
     });
 
-    const runData = await runResponse.json();
+    const data = await response.json();
 
-    // 5️⃣ Poll until run completes
-    let runStatus = runData.status;
-    while (runStatus !== "completed") {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      const statusResponse = await fetch(
-        `https://api.openai.com/v1/threads/${currentThreadId}/runs/${runData.id}`,
-        { method: "GET", headers }
-      );
-      const statusData = await statusResponse.json();
-      runStatus = statusData.status;
-      if (runStatus === "failed") {
-        return res.status(500).json({ reply: "Assistant run failed." });
-      }
-    }
+    // Extract assistant reply
+    const assistantMessage = data?.output?.[0]?.content?.[0]?.text || "ELi Wise could not generate a response.";
 
-    // 6️⃣ Fetch messages again to get the latest assistant response
-    const finalMessagesResponse = await fetch(`https://api.openai.com/v1/threads/${currentThreadId}/messages`, {
-      method: "GET",
-      headers
-    });
-    const finalMessagesData = await finalMessagesResponse.json();
+    return res.status(200).json({ reply: assistantMessage, threadId: currentThreadId });
 
-    const assistantMessage = [...finalMessagesData.data]
-      .reverse()
-      .find(msg => msg.role === "assistant");
-
-    const reply = assistantMessage?.content?.map(c => c.text?.value || "").join("\n") ||
-                  "ELi Wise could not generate a response.";
-
-    // 7️⃣ Return reply + threadId
-    return res.status(200).json({ reply, threadId: currentThreadId });
-
-  } catch (error) {
-    console.error("Assistants API Error:", error);
+  } catch (err) {
+    console.error("Assistant API Error:", err);
     return res.status(500).json({ reply: "Server error occurred. Check logs." });
   }
 }
