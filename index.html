@@ -11,7 +11,6 @@
     height:100vh; margin:0; position:relative; background:#f0f0f0; overflow:hidden; 
   }
 
-  /* Background watermark */
   body::before { 
     content: "ELI-WISE"; 
     position:absolute; top:50%; left:50%; 
@@ -66,7 +65,7 @@
 const chatDiv = document.getElementById('chat');
 const inputField = document.getElementById('userInput');
 let threadId = null;
-let typingElement = null;
+let typingTimeout = null;
 
 async function sendMessage() {
   const message = inputField.value.trim();
@@ -76,8 +75,8 @@ async function sendMessage() {
   inputField.value = '';
   scrollToBottom();
 
-  // Show typing indicator
-  typingElement = addMessage("ELI-WISE is typing...", 'eli', true);
+  // Show typing for 1.5 seconds
+  const typingElement = addMessage("ELI-WISE is typing...", 'eli', true);
   scrollToBottom();
 
   try {
@@ -89,25 +88,18 @@ async function sendMessage() {
 
     const data = await response.json();
 
-    // Remove typing indicator
-    if (typingElement) {
-      chatDiv.removeChild(typingElement);
-      typingElement = null;
-    }
+    // Remove typing
+    chatDiv.removeChild(typingElement);
 
+    // Add assistant reply
     addMessage(data.reply, 'eli');
     scrollToBottom();
 
-    // Save threadId for multi-turn
-    if (!threadId && data.threadId) {
-      threadId = data.threadId;
-    }
+    // Save threadId for next messages
+    if (data.threadId) threadId = data.threadId;
 
   } catch(err) {
-    if (typingElement) {
-      chatDiv.removeChild(typingElement);
-      typingElement = null;
-    }
+    chatDiv.removeChild(typingElement);
     addMessage("Error: " + err.message, 'eli');
     scrollToBottom();
   }
@@ -124,7 +116,9 @@ function addMessage(text, sender, isTyping=false) {
 
 function scrollToBottom() { chatDiv.scrollTop = chatDiv.scrollHeight; }
 
-inputField.addEventListener('keypress', e => { if(e.key==='Enter') sendMessage(); });
+inputField.addEventListener('keypress', e => { 
+  if (e.key === 'Enter') sendMessage(); 
+});
 </script>
 </body>
 </html>
