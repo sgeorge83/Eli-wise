@@ -1,10 +1,14 @@
 export default async function handler(req, res) {
-  if (req.method !== "POST") 
+  if (req.method !== "POST") {
     return res.status(405).json({ reply: "Method not allowed" });
+  }
 
   try {
     const { message, threadId } = req.body;
-    if (!message) return res.status(400).json({ reply: "No message provided." });
+
+    if (!message) {
+      return res.status(400).json({ reply: "No message provided." });
+    }
 
     const headers = {
       "Content-Type": "application/json",
@@ -13,7 +17,7 @@ export default async function handler(req, res) {
 
     let currentThreadId = threadId;
 
-    // 1️⃣ Create session/thread if not exist
+    // 1️⃣ Create session if it doesn't exist
     if (!currentThreadId) {
       const sessionResp = await fetch(
         `https://api.openai.com/v1/assistants/${process.env.ASSISTANT_ID}/sessions`,
@@ -22,14 +26,14 @@ export default async function handler(req, res) {
       const sessionData = await sessionResp.json();
 
       if (!sessionData?.id) {
-        console.error("Failed to create session:", sessionData);
-        return res.status(500).json({ reply: "Failed to create assistant session." });
+        console.error("Failed to create assistant session:", sessionData);
+        return res.status(500).json({ reply: "Failed to create assistant session. Check ASSISTANT_ID and API key." });
       }
 
       currentThreadId = sessionData.id;
     }
 
-    // 2️⃣ Send message
+    // 2️⃣ Send user message
     const response = await fetch(
       `https://api.openai.com/v1/assistants/${process.env.ASSISTANT_ID}/sessions/${currentThreadId}/message`,
       {
@@ -41,7 +45,7 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // 3️⃣ Extract assistant reply robustly
+    // 3️⃣ Extract assistant reply
     let assistantReply = null;
 
     if (data?.output?.length) {
@@ -60,7 +64,6 @@ export default async function handler(req, res) {
       }
     }
 
-    // If still null, log entire response
     if (!assistantReply) {
       console.error("Empty assistant response:", JSON.stringify(data, null, 2));
       assistantReply = "ELi Wise could not generate a response. Check logs for details.";
