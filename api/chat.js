@@ -1,53 +1,109 @@
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ reply: "Method not allowed" });
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const { message } = req.body;
+    const { message, threadId } = req.body;
 
-    const openaiResponse = await fetch(
-      "https://api.openai.com/v1/chat/completions",
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+      "OpenAI-Beta": "assistants=v2"
+    };
+
+    let currentThreadId = threadId;
+
+    // 1️⃣ Create thread if not exists
+    if (!currentThreadId) {
+      const threadResponse = await fetch(
+        "https://api.openai.com/v1/threads",
+        {
+          method: "POST",
+          headers
+        }
+      );
+
+      const threadData = await threadResponse.json();
+      currentThreadId = threadData.id;
+    }
+
+    // 2️⃣ Add user message to thread
+    await fetch(
+      `https://api.openai.com/v1/threads/${currentThreadId}/messages`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
-        },
+        headers,
         body: JSON.stringify({
-          model: "gpt-4o-mini",
-          messages: [
-            {
-              role: "system",
-              content: "You are ELi Wise, a helpful and intelligent AI assistant."
-            },
-            {
-              role: "user",
-              content: message
-            }
-          ]
+          role: "user",
+          content: message
         })
       }
     );
 
-    const data = await openaiResponse.json();
+    // 3️⃣ Create run
+    const runResponse = await fetch(
+      `https://api.openai.com/v1/threads/${currentThreadId}/runs`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          assistant_id: process.env.ASSISTANT_ID
+        })
+      }
+    );
 
-    console.log("OpenAI raw response:", data);
+    const runData = await runResponse.json();
+    let runStatus = runData.status;
 
-    if (!data.choices) {
-      return res.status(500).json({
-        reply: "OpenAI Error: " + JSON.stringify(data)
-      });
+    // 4️⃣ Poll until run completes
+    while (runStatus !== "completed") {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      const statusResponse = await fetch(
+        `https://api.openai.com/v1/threads/${currentThreadId}/runs/${runData.id}`,
+        {
+          method: "GET",
+          headers
+        }
+      );
+
+      const statusData = await statusResponse.json();
+      runStatus = statusData.status;
+
+      if (runStatus === "failed") {
+        return res.status(500).json({ reply: "Run failed." });
+      }
     }
 
-    const assistantReply = data.choices[0].message.content;
+    // 5️⃣ Get messages
+    const messagesResponse = await fetch(
+      `https://api.openai.com/v1/threads/${currentThreadId}/messages`,
+      {
+        method: "GET",
+        headers
+      }
+    );
 
-    return res.status(200).json({ reply: assistantReply });
+    const messagesData = await messagesResponse.json();
+
+    const assistantMessage = messagesData.data.find(
+      msg => msg.role === "assistant"
+    );
+
+    const reply =
+      assistantMessage?.content?.[0]?.text?.value ||
+      "No response generated.";
+
+    return res.status(200).json({
+      reply,
+      threadId: currentThreadId
+    });
 
   } catch (error) {
-    console.error("Server Error:", error);
+    console.error("Assistant API Error:", error);
     return res.status(500).json({
-      reply: "Server error occurred."
+      reply: "Internal server error."
     });
   }
 }
