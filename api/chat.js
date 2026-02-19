@@ -7,15 +7,14 @@ export default async function handler(req, res) {
 
     const headers = {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-      "OpenAI-Beta": "assistants=v2"
+      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
     };
 
     let currentThreadId = threadId;
 
-    // Create thread if not exist
+    // 1️⃣ Create thread if it doesn’t exist
     if (!currentThreadId) {
-      const threadResp = await fetch("https://api.openai.com/v1/threads", {
+      const threadResp = await fetch("https://api.openai.com/v1/assistants/" + process.env.ASSISTANT_ID + "/sessions", {
         method: "POST",
         headers
       });
@@ -23,24 +22,24 @@ export default async function handler(req, res) {
       currentThreadId = threadData.id;
     }
 
-    // Send user message and get assistant reply directly
-    const response = await fetch(`https://api.openai.com/v1/threads/${currentThreadId}/messages`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        role: "user",
-        content: message,
-        assistant_id: process.env.ASSISTANT_ID,
-      })
-    });
+    // 2️⃣ Send user message
+    const response = await fetch(
+      `https://api.openai.com/v1/assistants/${process.env.ASSISTANT_ID}/sessions/${currentThreadId}/message`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ input: message })
+      }
+    );
 
     const data = await response.json();
 
-    // Extract assistant reply
-    const assistantMessage = data?.output?.[0]?.content?.[0]?.text || "ELi Wise could not generate a response.";
+    // 3️⃣ Extract assistant text
+    const assistantReply =
+      data?.output?.[0]?.content?.[0]?.text?.value ||
+      "ELi Wise could not generate a response.";
 
-    return res.status(200).json({ reply: assistantMessage, threadId: currentThreadId });
-
+    return res.status(200).json({ reply: assistantReply, threadId: currentThreadId });
   } catch (err) {
     console.error("Assistant API Error:", err);
     return res.status(500).json({ reply: "Server error occurred. Check logs." });
