@@ -44,7 +44,7 @@ async function sendMessage() {
   scrollToBottom();
 
   try {
-    const response = await fetch('/.netlify/functions/chat', {
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ message, threadId })
@@ -88,3 +88,4 @@ inputField.addEventListener('keypress', e => { if(e.key==='Enter') sendMessage()
 </script>
 </body>
 </html>
+
