@@ -1,13 +1,17 @@
-import { isBibleOrTheologyQuestion, REFUSAL_MESSAGE } from "../lib/guardrails.js";
+import { isBibleOrTheologyQuestion, isMetaQuestion } from "../lib/guardrails.js";
 import {
   buildContextBlock,
+  isKnowledgeAvailable,
   retrieveRelevantChunks,
   uniqueCitations,
 } from "../lib/rag.js";
 import {
   DEFAULT_OPENAI_MODEL,
+  KNOWLEDGE_NOT_AVAILABLE_MESSAGE,
   MAX_HISTORY_MESSAGES_TO_API,
   MAX_USER_MESSAGES_PER_SESSION,
+  META_INTRO_MESSAGE,
+  OFF_TOPIC_MESSAGE,
   SESSION_LIMIT_MESSAGE,
 } from "../lib/config.js";
 
@@ -28,13 +32,12 @@ function buildSystemPrompt(contextBlock) {
   return `You are ELI-WISE, a Bible and Christian theology assistant.
 
 STRICT RULES:
-1. Answer ONLY questions about the Bible, Scripture, biblical interpretation, and historic orthodox Christian theology.
-2. If a question is outside Bible/theology scope, refuse politely and do not answer the off-topic part.
-3. Ground your answers primarily in the retrieved knowledge-base sources below.
-4. When you use a source, cite it inline like (WEB, John 3:16) or (Westminster Shorter Catechism, Q1).
-5. Do not invent Bible verses. If the knowledge base does not contain a passage, say you do not have it in the current knowledge base and answer only from what is provided.
-6. Present doctrine respectfully and clearly. Where Christians disagree, note major orthodox views without being dismissive.
-7. Keep answers concise, pastoral, and accurate.
+1. Answer ONLY using the retrieved knowledge-base sources below. Do not use outside knowledge.
+2. If the sources do not contain enough information to answer, say clearly that it is not available in the knowledge base. Do not guess or invent content.
+3. Do not invent Bible verses, quotes, or doctrine not present in the sources.
+4. Cite sources inline like (WEB, John 3:16) or (Westminster Shorter Catechism, Q1).
+5. Keep answers concise, pastoral, and accurate.
+6. If the question is outside Bible/theology, refuse — but off-topic questions are already filtered before you see them.
 
 RETRIEVED KNOWLEDGE BASE:
 ${contextBlock}`;
@@ -46,7 +49,7 @@ async function createChatCompletion(messages) {
     headers: getHeaders(),
     body: JSON.stringify({
       model: getModel(),
-      temperature: 0.2,
+      temperature: 0.1,
       messages,
     }),
   });
@@ -96,13 +99,31 @@ export default async function handler(req, res) {
 
     if (!isBibleOrTheologyQuestion(message)) {
       return res.status(200).json({
-        reply: REFUSAL_MESSAGE,
+        reply: OFF_TOPIC_MESSAGE,
         sources: [],
         refused: true,
       });
     }
 
+    if (isMetaQuestion(message)) {
+      return res.status(200).json({
+        reply: META_INTRO_MESSAGE,
+        sources: [],
+        refused: false,
+      });
+    }
+
     const retrievedChunks = retrieveRelevantChunks(message, 5);
+
+    if (!isKnowledgeAvailable(retrievedChunks)) {
+      return res.status(200).json({
+        reply: KNOWLEDGE_NOT_AVAILABLE_MESSAGE,
+        sources: [],
+        refused: false,
+        notAvailable: true,
+      });
+    }
+
     const contextBlock = buildContextBlock(retrievedChunks);
     const citations = uniqueCitations(retrievedChunks);
 

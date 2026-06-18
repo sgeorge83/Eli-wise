@@ -954,8 +954,8 @@
 
       <section>
         <h3>How answers are formed</h3>
-        <p>ELI-WISE uses <strong>retrieval-augmented generation (RAG)</strong>. When you ask a question, the system first searches the knowledge base for relevant Scripture and theology, then forms a response based on those sources — with citations shown beneath each reply.</p>
-        <p style="margin-top:10px">This approach is designed to <strong>reduce hallucination</strong> and keep answers tied to real biblical and theological material, rather than inventing verses or doctrines.</p>
+        <p>ELI-WISE uses <strong>retrieval-augmented generation (RAG)</strong>. When you ask a question, the system searches the knowledge base first. If nothing relevant is found, ELI-WISE will tell you it is <strong>not available</strong> — it will not guess or make up an answer.</p>
+        <p style="margin-top:10px">Questions outside the Bible and theology are declined plainly: ELI-WISE is not made to answer those.</p>
       </section>
 
       <section>
@@ -1195,6 +1195,13 @@ function addMessage(text, sender, options = {}) {
     content.appendChild(note);
   }
 
+  if (sender === 'eli' && options.notAvailable) {
+    const note = document.createElement('div');
+    note.className = 'refused-note';
+    note.textContent = 'Not available in knowledge base';
+    content.appendChild(note);
+  }
+
   row.appendChild(avatar);
   row.appendChild(content);
   chatDiv.appendChild(row);
@@ -1279,7 +1286,11 @@ async function sendMessage(text) {
       return;
     }
 
-    addMessage(data.reply, 'eli', { sources: data.sources, refused: data.refused });
+    addMessage(data.reply, 'eli', {
+      sources: data.sources,
+      refused: data.refused,
+      notAvailable: data.notAvailable,
+    });
     conversationHistory.push({ role: 'assistant', content: data.reply });
 
     if (data.sessionLimitReached) {
