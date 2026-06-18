@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ELI-WISE — Bible and Christian theology assistant with cited sources">
+<meta name="description" content="ELI-WISE — Your AI Bible Assistant. 100% Bible-based answers from Scripture, creeds, and trusted theology sources with citations.">
 <title>ELI-WISE — Bible & Theology</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -606,6 +606,207 @@
 
   .toast.error { border-color: #ef4444; color: #ef4444; }
 
+  /* About modal */
+  .about-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 39, 68, 0.55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .about-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .about-panel {
+    width: 100%;
+    max-width: 560px;
+    max-height: min(88vh, 760px);
+    overflow-y: auto;
+    background: var(--parchment);
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(16px) scale(0.98);
+    transition: transform 0.25s ease;
+  }
+
+  .about-overlay.open .about-panel {
+    transform: translateY(0) scale(1);
+  }
+
+  .about-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px 24px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+    padding-bottom: 20px;
+  }
+
+  .about-header-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .about-header-brand img {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    object-fit: cover;
+  }
+
+  .about-header-brand h2 {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    color: var(--navy);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+
+  .about-header-brand p {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .about-close {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    background: var(--paper);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition);
+  }
+
+  .about-close:hover {
+    background: var(--gold-muted);
+    border-color: var(--gold);
+  }
+
+  .about-body {
+    padding: 20px 24px 28px;
+  }
+
+  .about-body section {
+    margin-bottom: 22px;
+  }
+
+  .about-body section:last-child { margin-bottom: 0; }
+
+  .about-body h3 {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    color: var(--navy);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .about-body h3::before {
+    content: "";
+    width: 4px;
+    height: 1em;
+    background: var(--gold);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .about-body p,
+  .about-body li {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  .about-body ul {
+    margin: 8px 0 0 18px;
+  }
+
+  .about-body li { margin-bottom: 6px; }
+
+  .about-sources {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .about-source {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+  }
+
+  .about-source strong {
+    display: block;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+
+  .about-note {
+    background: var(--gold-muted);
+    border: 1px solid var(--border-gold);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--navy);
+  }
+
+  .about-note strong { color: var(--navy); }
+
+  .about-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--navy);
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .about-link-btn:hover { color: var(--gold); }
+
+  .welcome-about-link {
+    margin-top: -12px;
+    margin-bottom: 20px;
+  }
+
   /* Animations */
   @keyframes fadeIn {
     from { opacity: 0; }
@@ -653,6 +854,11 @@
     </div>
     <div class="header-actions">
       <span class="header-badge">100% Bible Based</span>
+      <button class="icon-btn" id="aboutBtn" title="About ELI-WISE" aria-label="About ELI-WISE">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+        </svg>
+      </button>
       <button class="icon-btn" id="newChatBtn" title="New conversation" aria-label="New conversation">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14M5 12h14"/>
@@ -670,6 +876,7 @@
         <cite>Isaiah 40:8 (WEB)</cite>
       </p>
       <p class="welcome-desc">I'm ELI-WISE, your Scripture and theology guide. I answer from authentic sources — the World English Bible, historic creeds, catechisms, and trusted reference works.</p>
+      <button class="about-link-btn welcome-about-link" id="welcomeAboutBtn" type="button">About ELI-WISE →</button>
       <div class="suggestions" id="suggestions">
         <button class="suggestion-chip" data-prompt="What does John 3:16 teach about salvation?">John 3:16 & salvation</button>
         <button class="suggestion-chip" data-prompt="Explain the Trinity from Scripture and the creeds">The Trinity</button>
@@ -695,6 +902,64 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<div class="about-overlay" id="aboutOverlay" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" hidden>
+  <div class="about-panel">
+    <div class="about-header">
+      <div class="about-header-brand">
+        <img src="assets/logo.png" alt="">
+        <div>
+          <h2 id="aboutTitle">About ELI-WISE</h2>
+          <p>Your AI Bible Assistant</p>
+        </div>
+      </div>
+      <button class="about-close" id="aboutClose" aria-label="Close about panel">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="about-body">
+      <section>
+        <h3>What is ELI-WISE?</h3>
+        <p>ELI-WISE is a <strong>100% Bible-based</strong> AI assistant created to help you explore Scripture and Christian theology with clarity. It is built for believers, students, and seekers who want faithful answers — not general chat, opinions, or worldly advice.</p>
+        <p style="margin-top:10px">Ask about Bible passages, doctrine, prayer, salvation, the character of God, Christian living, and related theological topics. Questions outside Scripture and theology are respectfully declined.</p>
+      </section>
+
+      <section>
+        <h3>Knowledge base</h3>
+        <p>Every answer is grounded in a curated library of authentic, public-domain Christian sources — not random internet content. Retrieved passages are cited so you can see where the answer comes from.</p>
+        <div class="about-sources">
+          <div class="about-source"><strong>World English Bible (WEB)</strong>Scripture — public-domain Bible translation</div>
+          <div class="about-source"><strong>Apostles' Creed & Nicene Creed</strong>Historic statements of core Christian faith</div>
+          <div class="about-source"><strong>Westminster Shorter Catechism (1647)</strong>Reformed doctrinal teaching</div>
+          <div class="about-source"><strong>Easton's Bible Dictionary (1897)</strong>Biblical terms and definitions</div>
+          <div class="about-source"><strong>Matthew Henry's Concise Commentary</strong>Devotional Scripture commentary</div>
+        </div>
+      </section>
+
+      <section>
+        <h3>How answers are formed</h3>
+        <p>ELI-WISE uses <strong>retrieval-augmented generation (RAG)</strong>. When you ask a question, the system first searches the knowledge base for relevant Scripture and theology, then forms a response based on those sources — with citations shown beneath each reply.</p>
+        <p style="margin-top:10px">This approach is designed to <strong>reduce hallucination</strong> and keep answers tied to real biblical and theological material, rather than inventing verses or doctrines.</p>
+      </section>
+
+      <section>
+        <h3>What to expect</h3>
+        <ul>
+          <li><strong>Clear, focused questions</strong> about the Bible and theology receive the best answers.</li>
+          <li><strong>Sources are always shown</strong> so you can read and verify the material yourself.</li>
+          <li><strong>Off-topic questions</strong> (weather, politics, coding, general advice, etc.) will not be answered.</li>
+          <li><strong>Vague or unclear questions</strong> may receive a general response or a request to be more specific.</li>
+        </ul>
+      </section>
+
+      <section>
+        <div class="about-note">
+          <strong>A note on accuracy:</strong> ELI-WISE is a study aid, not a replacement for God's Word, your church, or a trained pastor. While answers are source-backed to minimise error and invention, always test what you read against Scripture itself. <em>"The grass withers, the flower fades; but the word of our God stands forever."</em> — Isaiah 40:8
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
 <script>
 const chatDiv = document.getElementById('chat');
 const chatContainer = document.getElementById('chatContainer');
@@ -704,7 +969,34 @@ const inputWrapper = document.getElementById('inputWrapper');
 const welcome = document.getElementById('welcome');
 const toast = document.getElementById('toast');
 const newChatBtn = document.getElementById('newChatBtn');
+const aboutBtn = document.getElementById('aboutBtn');
+const welcomeAboutBtn = document.getElementById('welcomeAboutBtn');
+const aboutOverlay = document.getElementById('aboutOverlay');
+const aboutClose = document.getElementById('aboutClose');
 const LOGO_URL = 'assets/logo.png';
+
+function openAbout() {
+  aboutOverlay.hidden = false;
+  requestAnimationFrame(() => aboutOverlay.classList.add('open'));
+  document.body.style.overflow = 'hidden';
+  aboutClose.focus();
+}
+
+function closeAbout() {
+  aboutOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { aboutOverlay.hidden = true; }, 250);
+}
+
+aboutBtn.addEventListener('click', openAbout);
+welcomeAboutBtn.addEventListener('click', openAbout);
+aboutClose.addEventListener('click', closeAbout);
+aboutOverlay.addEventListener('click', (e) => {
+  if (e.target === aboutOverlay) closeAbout();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !aboutOverlay.hidden) closeAbout();
+});
 
 let conversationHistory = [];
 let isLoading = false;
