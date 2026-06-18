@@ -580,6 +580,22 @@
     margin-top: 10px;
   }
 
+  .session-counter {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    font-weight: 500;
+  }
+
+  .session-counter.warning { color: #b45309; }
+  .session-counter.limit { color: #b91c1c; }
+
+  .input-wrapper.session-limited {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
   /* Toast */
   .toast {
     position: fixed;
@@ -897,6 +913,7 @@
       </button>
     </div>
     <p class="input-hint">Press Enter to send · Shift+Enter for new line</p>
+    <p class="session-counter" id="sessionCounter" aria-live="polite"></p>
   </footer>
 </div>
 
@@ -947,7 +964,7 @@
           <li><strong>Clear, focused questions</strong> about the Bible and theology receive the best answers.</li>
           <li><strong>Sources are always shown</strong> so you can read and verify the material yourself.</li>
           <li><strong>Off-topic questions</strong> (weather, politics, coding, general advice, etc.) will not be answered.</li>
-          <li><strong>Vague or unclear questions</strong> may receive a general response or a request to be more specific.</li>
+          <li><strong>Session limit:</strong> up to <strong>40 questions</strong> per conversation without refreshing. Tap <strong>New Chat</strong> to continue. History is not saved after refresh.</li>
         </ul>
       </section>
 
@@ -1000,6 +1017,14 @@ document.addEventListener('keydown', (e) => {
 
 let conversationHistory = [];
 let isLoading = false;
+let userMessageCount = 0;
+let sessionLimitReached = false;
+
+const MAX_USER_MESSAGES = 40;
+const SESSION_LIMIT_REPLY =
+  'This session has reached its limit of 40 questions. Please tap **New Chat** (+) to start a fresh conversation. Your messages are not saved after you refresh the page.';
+
+const sessionCounter = document.getElementById('sessionCounter');
 
 // Toast
 function showToast(message, isError = false) {
@@ -1044,8 +1069,37 @@ function autoResize() {
   inputField.style.height = Math.min(inputField.scrollHeight, 150) + 'px';
 }
 
+function updateSessionCounter() {
+  if (userMessageCount === 0) {
+    sessionCounter.textContent = `Up to ${MAX_USER_MESSAGES} questions per session`;
+    sessionCounter.className = 'session-counter';
+    return;
+  }
+
+  const remaining = MAX_USER_MESSAGES - userMessageCount;
+  sessionCounter.textContent = `Question ${userMessageCount} of ${MAX_USER_MESSAGES}` +
+    (remaining <= 5 && remaining > 0 ? ` · ${remaining} remaining` : '');
+
+  sessionCounter.className = 'session-counter';
+  if (sessionLimitReached) sessionCounter.className += ' limit';
+  else if (remaining <= 5) sessionCounter.className += ' warning';
+}
+
+function applySessionLimitState() {
+  sessionLimitReached = userMessageCount >= MAX_USER_MESSAGES;
+  inputWrapper.classList.toggle('session-limited', sessionLimitReached);
+  inputField.disabled = sessionLimitReached;
+  if (sessionLimitReached) {
+    inputField.placeholder = 'Session limit reached — start a New Chat to continue';
+  } else {
+    inputField.placeholder = 'Ask a Bible or theology question...';
+  }
+  updateSessionCounter();
+  updateSendButton();
+}
+
 function updateSendButton() {
-  sendBtn.disabled = !inputField.value.trim() || isLoading;
+  sendBtn.disabled = !inputField.value.trim() || isLoading || sessionLimitReached;
 }
 
 function renderSources(sources) {
@@ -1190,10 +1244,18 @@ function setLoading(loading) {
 
 async function sendMessage(text) {
   const message = (text || inputField.value).trim();
-  if (!message || isLoading) return;
+  if (!message || isLoading || sessionLimitReached) return;
+
+  if (userMessageCount >= MAX_USER_MESSAGES) {
+    applySessionLimitState();
+    addMessage(SESSION_LIMIT_REPLY, 'eli');
+    return;
+  }
 
   addMessage(message, 'user');
   conversationHistory.push({ role: 'user', content: message });
+  userMessageCount += 1;
+  updateSessionCounter();
   inputField.value = '';
   inputField.style.height = 'auto';
   updateSendButton();
@@ -1220,6 +1282,10 @@ async function sendMessage(text) {
     addMessage(data.reply, 'eli', { sources: data.sources, refused: data.refused });
     conversationHistory.push({ role: 'assistant', content: data.reply });
 
+    if (data.sessionLimitReached) {
+      applySessionLimitState();
+    }
+
   } catch (err) {
     removeTypingIndicator();
     addMessage('Unable to connect. Please check your connection and try again.', 'eli');
@@ -1232,11 +1298,13 @@ async function sendMessage(text) {
 
 function startNewChat() {
   conversationHistory = [];
+  userMessageCount = 0;
+  sessionLimitReached = false;
   chatDiv.innerHTML = '';
   welcome.classList.remove('hidden');
   inputField.value = '';
   inputField.style.height = 'auto';
-  updateSendButton();
+  applySessionLimitState();
   inputField.focus();
   showToast('New conversation started');
 }
@@ -1263,7 +1331,7 @@ document.getElementById('suggestions').addEventListener('click', (e) => {
 });
 
 // Init
-updateSendButton();
+applySessionLimitState();
 inputField.focus();
 </script>
 </body>

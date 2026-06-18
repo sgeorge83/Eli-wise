@@ -4,11 +4,17 @@ import {
   retrieveRelevantChunks,
   uniqueCitations,
 } from "../lib/rag.js";
+import {
+  DEFAULT_OPENAI_MODEL,
+  MAX_HISTORY_MESSAGES_TO_API,
+  MAX_USER_MESSAGES_PER_SESSION,
+  SESSION_LIMIT_MESSAGE,
+} from "../lib/config.js";
 
 const OPENAI_BASE = "https://api.openai.com/v1";
 
 function getModel() {
-  return process.env.OPENAI_MODEL || "gpt-4o-mini";
+  return process.env.OPENAI_MODEL || DEFAULT_OPENAI_MODEL;
 }
 
 function getHeaders() {
@@ -75,6 +81,19 @@ export default async function handler(req, res) {
       return res.status(400).json({ reply: "No message provided.", sources: [], refused: false });
     }
 
+    const priorUserMessages = Array.isArray(history)
+      ? history.filter((item) => item?.role === "user").length
+      : 0;
+
+    if (priorUserMessages >= MAX_USER_MESSAGES_PER_SESSION) {
+      return res.status(200).json({
+        reply: SESSION_LIMIT_MESSAGE,
+        sources: [],
+        refused: false,
+        sessionLimitReached: true,
+      });
+    }
+
     if (!isBibleOrTheologyQuestion(message)) {
       return res.status(200).json({
         reply: REFUSAL_MESSAGE,
@@ -90,7 +109,7 @@ export default async function handler(req, res) {
     const recentHistory = Array.isArray(history)
       ? history
           .filter((item) => item?.role && item?.content)
-          .slice(-6)
+          .slice(-MAX_HISTORY_MESSAGES_TO_API)
           .map((item) => ({
             role: item.role === "assistant" ? "assistant" : "user",
             content: String(item.content),

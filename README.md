@@ -20,8 +20,17 @@ Chunks live in `knowledge/chunks.json`. Add more passages and references there t
 - RAG retrieval from curated Bible/theology knowledge base
 - Topic guardrails — refuses non-Bible questions
 - Inline and UI source citations
-- Dark/light theme, responsive chat UI
-- Conversation history within a session
+- Reader-friendly parchment UI with navy & gold branding
+- Session-based conversation (up to 40 questions, last 20 turns sent to AI)
+- Default model: `gpt-4o-mini` (lowest-cost OpenAI model suited for this app)
+
+## Session limits
+
+| Setting | Value |
+|---------|-------|
+| Max questions per session | 40 (browser session, no refresh) |
+| Context sent to OpenAI per request | Last 20 messages (~10 Q&A pairs) |
+| Persistent storage | None — refresh or new tab clears history |
 
 ## Vercel setup
 
@@ -31,7 +40,7 @@ Chunks live in `knowledge/chunks.json`. Add more passages and references there t
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `OPENAI_API_KEY` | Yes | Your OpenAI API key |
-| `OPENAI_MODEL` | No | Defaults to `gpt-4o-mini` |
+| `OPENAI_MODEL` | No | Defaults to `gpt-4o-mini` (recommended for low cost) |
 
 `ASSISTANT_ID` is **no longer required** — the app uses RAG + Chat Completions instead of the Assistants API.
 
