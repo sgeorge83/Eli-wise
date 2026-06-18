@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ELI-WISE — Your intelligent AI assistant">
-<title>ELI-WISE</title>
+<meta name="description" content="ELI-WISE — Bible and Christian theology assistant with cited sources">
+<title>ELI-WISE — Bible & Theology</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -356,6 +356,52 @@
   .message-bubble strong { font-weight: 600; }
   .message-bubble a { color: var(--accent); text-decoration: underline; }
 
+  .sources {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .sources-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .source-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .source-item {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    line-height: 1.4;
+  }
+
+  .source-item a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .source-item a:hover { text-decoration: underline; }
+
+  .refused-note {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
   .copy-btn {
     opacity: 0;
     background: none;
@@ -539,7 +585,7 @@
       <div class="brand-icon">EW</div>
       <div class="brand-text">
         <h1>ELI-WISE</h1>
-        <span>AI Assistant</span>
+        <span>Bible & Theology</span>
       </div>
     </div>
     <div class="header-actions">
@@ -566,13 +612,13 @@
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
       </div>
-      <h2>How can I help you today?</h2>
-      <p>I'm ELI-WISE, your AI assistant. Ask me anything — from quick questions to deep conversations.</p>
+      <h2>Ask about the Bible & theology</h2>
+      <p>I'm ELI-WISE, your Scripture and theology guide. I answer from authentic sources — the World English Bible, historic creeds, catechisms, and trusted reference works.</p>
       <div class="suggestions" id="suggestions">
-        <button class="suggestion-chip" data-prompt="What can you help me with?">What can you help me with?</button>
-        <button class="suggestion-chip" data-prompt="Explain a complex topic simply">Explain a complex topic</button>
-        <button class="suggestion-chip" data-prompt="Help me brainstorm ideas">Brainstorm ideas</button>
-        <button class="suggestion-chip" data-prompt="Write a professional email">Write an email</button>
+        <button class="suggestion-chip" data-prompt="What does John 3:16 teach about salvation?">John 3:16 & salvation</button>
+        <button class="suggestion-chip" data-prompt="Explain the Trinity from Scripture and the creeds">The Trinity</button>
+        <button class="suggestion-chip" data-prompt="What is justification by faith?">Justification by faith</button>
+        <button class="suggestion-chip" data-prompt="How should Christians pray according to the Bible?">Biblical prayer</button>
       </div>
     </div>
     <div id="chat"></div>
@@ -580,7 +626,7 @@
 
   <footer class="input-area">
     <div class="input-wrapper" id="inputWrapper">
-      <textarea id="userInput" placeholder="Message ELI-WISE..." rows="1" aria-label="Message input"></textarea>
+      <textarea id="userInput" placeholder="Ask a Bible or theology question..." rows="1" aria-label="Message input"></textarea>
       <button class="send-btn" id="sendBtn" disabled aria-label="Send message">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
@@ -604,15 +650,8 @@ const toast = document.getElementById('toast');
 const themeToggle = document.getElementById('themeToggle');
 const newChatBtn = document.getElementById('newChatBtn');
 
-let threadId = null;
+let conversationHistory = [];
 let isLoading = false;
-
-const SUGGESTIONS = [
-  "What can you help me with?",
-  "Explain a complex topic simply",
-  "Help me brainstorm ideas",
-  "Write a professional email"
-];
 
 // Theme
 function initTheme() {
@@ -683,7 +722,43 @@ function updateSendButton() {
   sendBtn.disabled = !inputField.value.trim() || isLoading;
 }
 
-function addMessage(text, sender) {
+function renderSources(sources) {
+  if (!sources?.length) return null;
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'sources';
+
+  const label = document.createElement('div');
+  label.className = 'sources-label';
+  label.textContent = 'Sources';
+  wrapper.appendChild(label);
+
+  const list = document.createElement('div');
+  list.className = 'source-list';
+
+  sources.forEach((source) => {
+    const item = document.createElement('div');
+    item.className = 'source-item';
+
+    if (source.url) {
+      const link = document.createElement('a');
+      link.href = source.url;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent = `${source.title} — ${source.reference}`;
+      item.appendChild(link);
+    } else {
+      item.textContent = `${source.title} — ${source.reference}`;
+    }
+
+    list.appendChild(item);
+  });
+
+  wrapper.appendChild(list);
+  return wrapper;
+}
+
+function addMessage(text, sender, options = {}) {
   hideWelcome();
 
   const row = document.createElement('div');
@@ -723,6 +798,18 @@ function addMessage(text, sender) {
 
   content.appendChild(meta);
   content.appendChild(bubble);
+
+  if (sender === 'eli' && options.sources?.length) {
+    content.appendChild(renderSources(options.sources));
+  }
+
+  if (sender === 'eli' && options.refused) {
+    const note = document.createElement('div');
+    note.className = 'refused-note';
+    note.textContent = 'Outside Bible & theology scope';
+    content.appendChild(note);
+  }
+
   row.appendChild(avatar);
   row.appendChild(content);
   chatDiv.appendChild(row);
@@ -774,6 +861,7 @@ async function sendMessage(text) {
   if (!message || isLoading) return;
 
   addMessage(message, 'user');
+  conversationHistory.push({ role: 'user', content: message });
   inputField.value = '';
   inputField.style.height = 'auto';
   updateSendButton();
@@ -785,7 +873,7 @@ async function sendMessage(text) {
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, threadId })
+      body: JSON.stringify({ message, history: conversationHistory.slice(0, -1) })
     });
 
     const data = await response.json();
@@ -797,8 +885,8 @@ async function sendMessage(text) {
       return;
     }
 
-    addMessage(data.reply, 'eli');
-    if (data.threadId) threadId = data.threadId;
+    addMessage(data.reply, 'eli', { sources: data.sources, refused: data.refused });
+    conversationHistory.push({ role: 'assistant', content: data.reply });
 
   } catch (err) {
     removeTypingIndicator();
@@ -811,7 +899,7 @@ async function sendMessage(text) {
 }
 
 function startNewChat() {
-  threadId = null;
+  conversationHistory = [];
   chatDiv.innerHTML = '';
   welcome.classList.remove('hidden');
   inputField.value = '';

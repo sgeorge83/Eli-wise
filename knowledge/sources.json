@@ -1,0 +1,44 @@
+[
+  {
+    "id": "web",
+    "name": "World English Bible (WEB)",
+    "type": "Scripture",
+    "description": "Public-domain English Bible translation based on the American Standard Version.",
+    "url": "https://worldenglish.bible/"
+  },
+  {
+    "id": "easton",
+    "name": "Easton's Bible Dictionary (1897)",
+    "type": "Reference",
+    "description": "Classic biblical encyclopedia in the public domain.",
+    "url": "https://en.wikisource.org/wiki/Easton%27s_Bible_Dictionary_(1897)"
+  },
+  {
+    "id": "wsc",
+    "name": "Westminster Shorter Catechism (1647)",
+    "type": "Confession",
+    "description": "Historic Reformed catechism summarizing Christian doctrine.",
+    "url": "https://en.wikisource.org/wiki/Westminster_Shorter_Catechism"
+  },
+  {
+    "id": "apostles",
+    "name": "Apostles' Creed",
+    "type": "Creed",
+    "description": "Early Christian statement of core beliefs.",
+    "url": "https://en.wikisource.org/wiki/Apostles%27_Creed"
+  },
+  {
+    "id": "nicene",
+    "name": "Nicene Creed (381 AD)",
+    "type": "Creed",
+    "description": "Ecumenical creed affirming the Trinity and the person of Christ.",
+    "url": "https://en.wikisource.org/wiki/Nicene_Creed"
+  },
+  {
+    "id": "mhc",
+    "name": "Matthew Henry's Concise Commentary",
+    "type": "Commentary",
+    "description": "Public-domain devotional commentary on Scripture.",
+    "url": "https://en.wikisource.org/wiki/Matthew_Henry%27s_Concise_Commentary_on_the_Bible"
+  }
+]

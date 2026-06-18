@@ -1,17 +1,48 @@
+import { isBibleOrTheologyQuestion, REFUSAL_MESSAGE } from "../lib/guardrails.js";
+import {
+  buildContextBlock,
+  retrieveRelevantChunks,
+  uniqueCitations,
+} from "../lib/rag.js";
+
 const OPENAI_BASE = "https://api.openai.com/v1";
+
+function getModel() {
+  return process.env.OPENAI_MODEL || "gpt-4o-mini";
+}
 
 function getHeaders() {
   return {
     "Content-Type": "application/json",
     Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-    "OpenAI-Beta": "assistants=v2",
   };
 }
 
-async function openaiRequest(path, options = {}) {
-  const response = await fetch(`${OPENAI_BASE}${path}`, {
-    ...options,
-    headers: { ...getHeaders(), ...options.headers },
+function buildSystemPrompt(contextBlock) {
+  return `You are ELI-WISE, a Bible and Christian theology assistant.
+
+STRICT RULES:
+1. Answer ONLY questions about the Bible, Scripture, biblical interpretation, and historic orthodox Christian theology.
+2. If a question is outside Bible/theology scope, refuse politely and do not answer the off-topic part.
+3. Ground your answers primarily in the retrieved knowledge-base sources below.
+4. When you use a source, cite it inline like (WEB, John 3:16) or (Westminster Shorter Catechism, Q1).
+5. Do not invent Bible verses. If the knowledge base does not contain a passage, say you do not have it in the current knowledge base and answer only from what is provided.
+6. Present doctrine respectfully and clearly. Where Christians disagree, note major orthodox views without being dismissive.
+7. Keep answers concise, pastoral, and accurate.
+
+RETRIEVED KNOWLEDGE BASE:
+${contextBlock}`;
+}
+
+async function createChatCompletion(messages) {
+  const response = await fetch(`${OPENAI_BASE}/chat/completions`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify({
+      model: getModel(),
+      temperature: 0.2,
+      messages,
+    }),
   });
 
   const data = await response.json();
@@ -21,118 +52,78 @@ async function openaiRequest(path, options = {}) {
     throw new Error(message);
   }
 
-  return data;
-}
-
-async function createThread() {
-  return openaiRequest("/threads", { method: "POST", body: "{}" });
-}
-
-async function addUserMessage(threadId, message) {
-  return openaiRequest(`/threads/${threadId}/messages`, {
-    method: "POST",
-    body: JSON.stringify({ role: "user", content: message }),
-  });
-}
-
-async function createRun(threadId, assistantId) {
-  return openaiRequest(`/threads/${threadId}/runs`, {
-    method: "POST",
-    body: JSON.stringify({ assistant_id: assistantId }),
-  });
-}
-
-async function waitForRun(threadId, runId, maxAttempts = 45) {
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const run = await openaiRequest(`/threads/${threadId}/runs/${runId}`, {
-      method: "GET",
-    });
-
-    if (run.status === "completed") return run;
-
-    if (["failed", "cancelled", "expired"].includes(run.status)) {
-      throw new Error(run.last_error?.message || `Assistant run ${run.status}`);
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  }
-
-  throw new Error("Assistant run timed out. Please try again.");
-}
-
-async function getLatestAssistantReply(threadId) {
-  const messages = await openaiRequest(
-    `/threads/${threadId}/messages?order=desc&limit=10`,
-    { method: "GET" }
-  );
-
-  for (const message of messages.data || []) {
-    if (message.role !== "assistant") continue;
-
-    for (const part of message.content || []) {
-      if (part.type === "text" && part.text?.value) {
-        return part.text.value;
-      }
-    }
-  }
-
-  return null;
+  return data.choices?.[0]?.message?.content?.trim() || null;
 }
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ reply: "Method not allowed" });
+    return res.status(405).json({ reply: "Method not allowed", sources: [], refused: false });
   }
 
   if (!process.env.OPENAI_API_KEY) {
     return res.status(500).json({
       reply: "Server misconfigured: OPENAI_API_KEY is not set in Vercel environment variables.",
-    });
-  }
-
-  if (!process.env.ASSISTANT_ID) {
-    return res.status(500).json({
-      reply: "Server misconfigured: ASSISTANT_ID is not set in Vercel environment variables.",
+      sources: [],
+      refused: false,
     });
   }
 
   try {
-    const { message, threadId } = req.body;
+    const { message, history = [] } = req.body;
 
-    if (!message) {
-      return res.status(400).json({ reply: "No message provided." });
+    if (!message?.trim()) {
+      return res.status(400).json({ reply: "No message provided.", sources: [], refused: false });
     }
 
-    let currentThreadId = threadId;
-
-    if (!currentThreadId) {
-      const thread = await createThread();
-      currentThreadId = thread.id;
+    if (!isBibleOrTheologyQuestion(message)) {
+      return res.status(200).json({
+        reply: REFUSAL_MESSAGE,
+        sources: [],
+        refused: true,
+      });
     }
 
-    await addUserMessage(currentThreadId, message);
+    const retrievedChunks = retrieveRelevantChunks(message, 5);
+    const contextBlock = buildContextBlock(retrievedChunks);
+    const citations = uniqueCitations(retrievedChunks);
 
-    const run = await createRun(currentThreadId, process.env.ASSISTANT_ID);
-    await waitForRun(currentThreadId, run.id);
+    const recentHistory = Array.isArray(history)
+      ? history
+          .filter((item) => item?.role && item?.content)
+          .slice(-6)
+          .map((item) => ({
+            role: item.role === "assistant" ? "assistant" : "user",
+            content: String(item.content),
+          }))
+      : [];
 
-    const assistantReply = await getLatestAssistantReply(currentThreadId);
+    const messages = [
+      { role: "system", content: buildSystemPrompt(contextBlock) },
+      ...recentHistory,
+      { role: "user", content: message },
+    ];
 
-    if (!assistantReply) {
-      console.error("No assistant message found for thread:", currentThreadId);
+    const reply = await createChatCompletion(messages);
+
+    if (!reply) {
       return res.status(500).json({
         reply: "ELI-WISE could not generate a response. Please try again.",
-        threadId: currentThreadId,
+        sources: citations,
+        refused: false,
       });
     }
 
     return res.status(200).json({
-      reply: assistantReply,
-      threadId: currentThreadId,
+      reply,
+      sources: citations,
+      refused: false,
     });
   } catch (err) {
-    console.error("Assistant API error:", err);
+    console.error("RAG chat error:", err);
     return res.status(500).json({
       reply: err.message || "Server error occurred. Check Vercel logs.",
+      sources: [],
+      refused: false,
     });
   }
 }
