@@ -7,53 +7,43 @@
 <title>ELI-WISE — Bible & Theology</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/logo.png" type="image/png">
 <style>
   :root {
-    --bg-primary: #f8fafc;
-    --bg-secondary: #ffffff;
-    --bg-tertiary: #f1f5f9;
-    --bg-input: #ffffff;
-    --text-primary: #0f172a;
-    --text-secondary: #64748b;
-    --text-muted: #94a3b8;
-    --border: #e2e8f0;
-    --accent: #6366f1;
-    --accent-hover: #4f46e5;
-    --accent-light: rgba(99, 102, 241, 0.12);
-    --user-bubble: #6366f1;
-    --user-text: #ffffff;
-    --eli-bubble: #ffffff;
-    --eli-text: #1e293b;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-    --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+    --navy: #1a2744;
+    --navy-soft: #243556;
+    --gold: #c9a227;
+    --gold-light: #e8d48b;
+    --gold-muted: rgba(201, 162, 39, 0.14);
+    --cream: #faf6ee;
+    --parchment: #fffdf8;
+    --paper: #f3ece0;
+    --text-primary: #2c2416;
+    --text-secondary: #5c5347;
+    --text-muted: #8a8074;
+    --border: #e6dcc8;
+    --border-gold: rgba(201, 162, 39, 0.35);
+    --bg-primary: var(--cream);
+    --bg-secondary: var(--parchment);
+    --bg-tertiary: var(--paper);
+    --bg-input: var(--parchment);
+    --accent: var(--gold);
+    --accent-hover: #b08d1f;
+    --accent-light: var(--gold-muted);
+    --user-bubble: var(--navy);
+    --user-text: #fffdf8;
+    --eli-bubble: var(--parchment);
+    --eli-text: var(--text-primary);
+    --shadow-sm: 0 1px 3px rgba(26, 39, 68, 0.06);
+    --shadow-md: 0 4px 16px rgba(26, 39, 68, 0.08);
+    --shadow-lg: 0 10px 32px rgba(26, 39, 68, 0.1);
     --radius: 16px;
     --radius-sm: 10px;
-    --header-height: 64px;
-    --input-height: auto;
+    --header-height: 72px;
     --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  [data-theme="dark"] {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --bg-input: #1e293b;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
-    --border: #334155;
-    --accent: #818cf8;
-    --accent-hover: #a5b4fc;
-    --accent-light: rgba(129, 140, 248, 0.15);
-    --user-bubble: #6366f1;
-    --user-text: #ffffff;
-    --eli-bubble: #1e293b;
-    --eli-text: #e2e8f0;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
-    --shadow-lg: 0 8px 30px rgba(0,0,0,0.4);
+    --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-sans: 'Source Sans 3', system-ui, -apple-system, sans-serif;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -61,13 +51,15 @@
   html { height: 100%; }
 
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
     background: var(--bg-primary);
+    background-image:
+      radial-gradient(ellipse at top, rgba(201, 162, 39, 0.06) 0%, transparent 55%),
+      linear-gradient(180deg, var(--cream) 0%, #f7f1e6 100%);
     color: var(--text-primary);
     height: 100vh;
     height: 100dvh;
     overflow: hidden;
-    transition: background var(--transition), color var(--transition);
   }
 
   .app {
@@ -86,44 +78,61 @@
     justify-content: space-between;
     padding: 0 20px;
     height: var(--header-height);
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+    border-bottom: 2px solid var(--gold);
     flex-shrink: 0;
     z-index: 10;
-    transition: background var(--transition), border-color var(--transition);
+    box-shadow: var(--shadow-md);
   }
 
   .brand {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
   }
 
-  .brand-icon {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, var(--accent), #8b5cf6);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 700;
-    font-size: 14px;
-    box-shadow: var(--shadow-md);
+  .brand-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 0 2px rgba(201, 162, 39, 0.2);
+    flex-shrink: 0;
   }
 
   .brand-text h1 {
-    font-size: 1.125rem;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
     font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    color: var(--gold-light);
+    text-transform: uppercase;
   }
 
   .brand-text span {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    font-weight: 400;
+    font-size: 0.7rem;
+    color: rgba(255, 253, 248, 0.82);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .header-badge {
+    display: none;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--border-gold);
+    border-radius: 999px;
+    padding: 4px 10px;
+    background: rgba(201, 162, 39, 0.08);
+  }
+
+  @media (min-width: 700px) {
+    .header-badge { display: inline-block; }
   }
 
   .header-actions {
@@ -135,21 +144,21 @@
   .icon-btn {
     width: 40px;
     height: 40px;
-    border: 1px solid var(--border);
-    background: var(--bg-tertiary);
+    border: 1px solid var(--border-gold);
+    background: rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-sm);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-secondary);
+    color: var(--gold-light);
     transition: all var(--transition);
   }
 
   .icon-btn:hover {
-    background: var(--accent-light);
-    color: var(--accent);
-    border-color: var(--accent);
+    background: rgba(201, 162, 39, 0.18);
+    color: #fff;
+    border-color: var(--gold);
   }
 
   .icon-btn svg { width: 18px; height: 18px; }
@@ -192,34 +201,79 @@
 
   .welcome.hidden { display: none; }
 
-  .welcome-icon {
-    width: 72px;
-    height: 72px;
-    background: linear-gradient(135deg, var(--accent), #8b5cf6);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 24px;
-    box-shadow: var(--shadow-lg);
-    animation: float 3s ease-in-out infinite;
+  .welcome-logo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--gold);
+    box-shadow: var(--shadow-lg), 0 0 0 6px var(--gold-muted);
+    margin-bottom: 20px;
+    animation: float 4s ease-in-out infinite;
   }
 
-  .welcome-icon svg { width: 36px; height: 36px; color: white; }
+  .welcome-verse {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--navy);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 10px;
+    padding: 0 12px;
+  }
+
+  .welcome-verse cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 8px;
+  }
+
+  .bible-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--gold-muted);
+    border: 1px solid var(--border-gold);
+    border-radius: 999px;
+    padding: 8px 16px;
+    margin-bottom: 24px;
+  }
+
+  .bible-badge::before,
+  .bible-badge::after {
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
 
   .welcome h2 {
-    font-size: 1.75rem;
+    font-family: var(--font-serif);
+    font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 8px;
-    letter-spacing: -0.03em;
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+    color: var(--navy);
   }
 
-  .welcome p {
+  .welcome p.welcome-desc {
     color: var(--text-secondary);
     font-size: 1rem;
-    max-width: 420px;
-    line-height: 1.6;
-    margin-bottom: 32px;
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 28px;
   }
 
   .suggestions {
@@ -232,20 +286,20 @@
 
   .suggestion-chip {
     padding: 10px 16px;
-    background: var(--bg-secondary);
+    background: var(--parchment);
     border: 1px solid var(--border);
     border-radius: 20px;
     font-size: 0.875rem;
-    color: var(--text-primary);
+    color: var(--navy);
     cursor: pointer;
     transition: all var(--transition);
     font-family: inherit;
   }
 
   .suggestion-chip:hover {
-    background: var(--accent-light);
-    border-color: var(--accent);
-    color: var(--accent);
+    background: var(--gold-muted);
+    border-color: var(--gold);
+    color: var(--navy);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
   }
@@ -275,13 +329,15 @@
   }
 
   .avatar.eli {
-    background: linear-gradient(135deg, var(--accent), #8b5cf6);
-    color: white;
+    background: none;
+    object-fit: cover;
+    border: 2px solid var(--gold);
+    padding: 0;
   }
 
   .avatar.user {
-    background: var(--bg-tertiary);
-    color: var(--text-secondary);
+    background: var(--paper);
+    color: var(--navy);
     border: 1px solid var(--border);
   }
 
@@ -320,8 +376,11 @@
     background: var(--eli-bubble);
     color: var(--eli-text);
     border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
     border-bottom-left-radius: 4px;
     box-shadow: var(--shadow-sm);
+    font-size: 1rem;
+    line-height: 1.75;
   }
 
   .message-row.user .message-bubble {
@@ -354,7 +413,8 @@
   }
 
   .message-bubble strong { font-weight: 600; }
-  .message-bubble a { color: var(--accent); text-decoration: underline; }
+  .message-bubble a { color: var(--navy); text-decoration: underline; font-weight: 500; }
+  .message-bubble a:hover { color: var(--gold); }
 
   .sources {
     margin-top: 10px;
@@ -388,12 +448,12 @@
   }
 
   .source-item a {
-    color: var(--accent);
+    color: var(--navy);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
   }
 
-  .source-item a:hover { text-decoration: underline; }
+  .source-item a:hover { color: var(--gold); text-decoration: underline; }
 
   .refused-note {
     font-size: 0.8rem;
@@ -442,10 +502,9 @@
   /* Input area */
   .input-area {
     padding: 16px 20px 20px;
-    background: var(--bg-secondary);
+    background: var(--parchment);
     border-top: 1px solid var(--border);
     flex-shrink: 0;
-    transition: background var(--transition), border-color var(--transition);
   }
 
   .input-wrapper {
@@ -460,8 +519,8 @@
   }
 
   .input-wrapper:focus-within {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-light);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-muted);
   }
 
   .input-wrapper.disabled {
@@ -489,8 +548,8 @@
     width: 44px;
     height: 44px;
     border: none;
-    background: var(--accent);
-    color: white;
+    background: linear-gradient(135deg, var(--gold) 0%, #b08d1f 100%);
+    color: var(--navy);
     border-radius: 12px;
     cursor: pointer;
     display: flex;
@@ -498,10 +557,11 @@
     justify-content: center;
     flex-shrink: 0;
     transition: all var(--transition);
+    box-shadow: var(--shadow-sm);
   }
 
   .send-btn:hover:not(:disabled) {
-    background: var(--accent-hover);
+    background: linear-gradient(135deg, #d4b23a 0%, var(--gold) 100%);
     transform: scale(1.05);
   }
 
@@ -569,12 +629,15 @@
 
   @media (max-width: 600px) {
     .header { padding: 0 12px; }
+    .brand-logo { width: 40px; height: 40px; }
+    .brand-text h1 { font-size: 1.2rem; }
     #chat { padding: 16px 12px; }
     .input-area { padding: 12px; }
-    .welcome h2 { font-size: 1.4rem; }
+    .welcome-logo { width: 110px; height: 110px; }
+    .welcome h2 { font-size: 1.5rem; }
     .suggestions { gap: 8px; }
     .suggestion-chip { font-size: 0.8125rem; padding: 8px 14px; }
-    .message-bubble { font-size: 0.875rem; }
+    .message-bubble { font-size: 0.9375rem; }
   }
 </style>
 </head>
@@ -582,24 +645,17 @@
 <div class="app">
   <header class="header">
     <div class="brand">
-      <div class="brand-icon">EW</div>
+      <img class="brand-logo" src="assets/logo.png" alt="ELI-WISE logo">
       <div class="brand-text">
         <h1>ELI-WISE</h1>
-        <span>Bible & Theology</span>
+        <span>Your AI Bible Assistant</span>
       </div>
     </div>
     <div class="header-actions">
+      <span class="header-badge">100% Bible Based</span>
       <button class="icon-btn" id="newChatBtn" title="New conversation" aria-label="New conversation">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14M5 12h14"/>
-        </svg>
-      </button>
-      <button class="icon-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
-        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-        </svg>
-        <svg class="moon-icon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
       </button>
     </div>
@@ -607,13 +663,13 @@
 
   <div class="chat-container" id="chatContainer">
     <div class="welcome" id="welcome">
-      <div class="welcome-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-        </svg>
-      </div>
-      <h2>Ask about the Bible & theology</h2>
-      <p>I'm ELI-WISE, your Scripture and theology guide. I answer from authentic sources — the World English Bible, historic creeds, catechisms, and trusted reference works.</p>
+      <img class="welcome-logo" src="assets/logo.png" alt="ELI-WISE">
+      <div class="bible-badge">100% Bible Based</div>
+      <h2>Ask about Scripture & theology</h2>
+      <p class="welcome-verse">"The grass withers, the flower fades; but the word of our God stands forever."
+        <cite>Isaiah 40:8 (WEB)</cite>
+      </p>
+      <p class="welcome-desc">I'm ELI-WISE, your Scripture and theology guide. I answer from authentic sources — the World English Bible, historic creeds, catechisms, and trusted reference works.</p>
       <div class="suggestions" id="suggestions">
         <button class="suggestion-chip" data-prompt="What does John 3:16 teach about salvation?">John 3:16 & salvation</button>
         <button class="suggestion-chip" data-prompt="Explain the Trinity from Scripture and the creeds">The Trinity</button>
@@ -647,33 +703,11 @@ const sendBtn = document.getElementById('sendBtn');
 const inputWrapper = document.getElementById('inputWrapper');
 const welcome = document.getElementById('welcome');
 const toast = document.getElementById('toast');
-const themeToggle = document.getElementById('themeToggle');
 const newChatBtn = document.getElementById('newChatBtn');
+const LOGO_URL = 'assets/logo.png';
 
 let conversationHistory = [];
 let isLoading = false;
-
-// Theme
-function initTheme() {
-  const saved = localStorage.getItem('eli-wise-theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = saved || (prefersDark ? 'dark' : 'light');
-  setTheme(theme);
-}
-
-function setTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('eli-wise-theme', theme);
-  const sun = themeToggle.querySelector('.sun-icon');
-  const moon = themeToggle.querySelector('.moon-icon');
-  sun.style.display = theme === 'dark' ? 'none' : 'block';
-  moon.style.display = theme === 'dark' ? 'block' : 'none';
-}
-
-themeToggle.addEventListener('click', () => {
-  const current = document.documentElement.getAttribute('data-theme');
-  setTheme(current === 'dark' ? 'light' : 'dark');
-});
 
 // Toast
 function showToast(message, isError = false) {
@@ -764,9 +798,14 @@ function addMessage(text, sender, options = {}) {
   const row = document.createElement('div');
   row.className = `message-row ${sender}`;
 
-  const avatar = document.createElement('div');
+  const avatar = document.createElement(sender === 'eli' ? 'img' : 'div');
   avatar.className = `avatar ${sender}`;
-  avatar.textContent = sender === 'eli' ? 'EW' : 'You';
+  if (sender === 'eli') {
+    avatar.src = LOGO_URL;
+    avatar.alt = 'ELI-WISE';
+  } else {
+    avatar.textContent = 'You';
+  }
 
   const content = document.createElement('div');
   content.className = 'message-content';
@@ -825,9 +864,10 @@ function addTypingIndicator() {
   row.className = 'message-row eli';
   row.id = 'typingRow';
 
-  const avatar = document.createElement('div');
+  const avatar = document.createElement('img');
   avatar.className = 'avatar eli';
-  avatar.textContent = 'EW';
+  avatar.src = LOGO_URL;
+  avatar.alt = 'ELI-WISE';
 
   const content = document.createElement('div');
   content.className = 'message-content';
@@ -931,7 +971,6 @@ document.getElementById('suggestions').addEventListener('click', (e) => {
 });
 
 // Init
-initTheme();
 updateSendButton();
 inputField.focus();
 </script>
