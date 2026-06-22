@@ -13,7 +13,7 @@ A Bible and Christian theology chat assistant using **RAG** (Retrieval-Augmented
 | [Nicene Creed (381 AD)](https://en.wikisource.org/wiki/Nicene_Creed) | Creed |
 | [Matthew Henry's Concise Commentary](https://en.wikisource.org/wiki/Matthew_Henry%27s_Concise_Commentary_on_the_Bible) | Commentary |
 
-Chunks live in `knowledge/chunks.json`. Add more passages and references there to expand coverage.
+Chunks live in `knowledge/chunks/` (WEB scripture, Westminster Shorter Catechism, Easton's Dictionary, Matthew Henry commentary, and creeds). Regenerate with `python scripts/generate-knowledge.py`.
 
 ## Features
 
@@ -59,14 +59,24 @@ api/chat.js          # RAG chat endpoint
 lib/guardrails.js    # Bible/theology topic filter
 lib/rag.js           # Knowledge retrieval & ranking
 lib/knowledge.js     # Knowledge base loader
-knowledge/chunks.json
+knowledge/chunks/    # Modular chunk files (342 passages)
 knowledge/sources.json
+knowledge/raw/       # Source text for regeneration
+scripts/generate-knowledge.py
 index.html
 ```
 
 ## Expanding the knowledge base
 
-Edit `knowledge/chunks.json` — each entry needs:
+The knowledge base currently includes **342 chunks**: 150 WEB scripture passages, the full Westminster Shorter Catechism (107 Q&As), 50 Easton's Dictionary entries, 25 Matthew Henry commentary excerpts, and creeds/theology overviews.
+
+To regenerate or expand:
+
+1. Edit passage lists in `scripts/generate-knowledge.py`
+2. Run `python scripts/generate-knowledge.py`
+3. Commit the updated files in `knowledge/chunks/`
+
+Each chunk uses this shape:
 
 ```json
 {

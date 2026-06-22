@@ -1,0 +1,1325 @@
+[
+  {
+    "id": "easton-grace",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Grace",
+    "topics": [
+      "grace",
+      "salvation",
+      "doctrine"
+    ],
+    "keywords": [
+      "grace",
+      "divine",
+      "kindness",
+      "bestowed",
+      "undeserving",
+      "god's",
+      "mercy",
+      "distinguished",
+      "justice",
+      "new",
+      "testament",
+      "source",
+      "salvation",
+      "doctrine"
+    ],
+    "text": "Grace: divine kindness bestowed upon the undeserving; God's mercy as distinguished from His justice. In the New Testament, grace is the source of salvation, sanctification, and every spiritual gift."
+  },
+  {
+    "id": "easton-trinity",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Trinity",
+    "topics": [
+      "trinity",
+      "god",
+      "doctrine"
+    ],
+    "keywords": [
+      "trinity",
+      "doctrine",
+      "god",
+      "subsisting",
+      "three",
+      "distinct",
+      "persons",
+      "father",
+      "son",
+      "holy",
+      "spirit",
+      "though"
+    ],
+    "text": "Trinity: the doctrine of one God subsisting in three distinct persons — the Father, the Son, and the Holy Spirit. Though the word is not found in Scripture, the teaching is affirmed throughout the Bible."
+  },
+  {
+    "id": "easton-salvation",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Salvation",
+    "topics": [
+      "salvation",
+      "gospel",
+      "jesus"
+    ],
+    "keywords": [
+      "salvation",
+      "deliverance",
+      "sin",
+      "consequences",
+      "through",
+      "jesus",
+      "christ",
+      "accomplished",
+      "atoning",
+      "death",
+      "resurrection",
+      "received",
+      "gospel"
+    ],
+    "text": "Salvation: deliverance from sin and its consequences through Jesus Christ, accomplished by his atoning death and resurrection, received through faith, and sealed by the Holy Spirit."
+  },
+  {
+    "id": "easton-repentance",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Repentance",
+    "topics": [
+      "repentance",
+      "sin",
+      "conversion"
+    ],
+    "keywords": [
+      "repentance",
+      "change",
+      "mind",
+      "heart",
+      "toward",
+      "god",
+      "involving",
+      "sorrow",
+      "sin",
+      "turning",
+      "faith",
+      "obedience",
+      "conversion"
+    ],
+    "text": "Repentance: a change of mind and heart toward God, involving sorrow for sin, turning from it, and turning to God in faith and obedience. Biblical repentance bears fruit worthy of repentance."
+  },
+  {
+    "id": "easton-prayer",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Prayer",
+    "topics": [
+      "prayer",
+      "worship",
+      "god"
+    ],
+    "keywords": [
+      "prayer",
+      "communion",
+      "god",
+      "through",
+      "adoration",
+      "confession",
+      "thanksgiving",
+      "supplication",
+      "believers",
+      "pray",
+      "christ's",
+      "name",
+      "worship"
+    ],
+    "text": "Prayer: communion with God through adoration, confession, thanksgiving, and supplication. Believers pray in Christ's name, according to God's will, with faith and humility."
+  },
+  {
+    "id": "easton-faith",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Faith",
+    "topics": [
+      "faith",
+      "belief",
+      "doctrine"
+    ],
+    "keywords": [
+      "faith",
+      "trust",
+      "god",
+      "reliance",
+      "promises",
+      "especially",
+      "christ",
+      "salvation",
+      "saving",
+      "includes",
+      "knowledge",
+      "assent",
+      "belief",
+      "doctrine"
+    ],
+    "text": "Faith: trust in God and reliance upon his promises, especially faith in Christ for salvation. Saving faith includes knowledge, assent, and personal trust, and produces obedience."
+  },
+  {
+    "id": "easton-sin",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Sin",
+    "topics": [
+      "sin",
+      "fall",
+      "doctrine"
+    ],
+    "keywords": [
+      "sin",
+      "want",
+      "conformity",
+      "transgression",
+      "god's",
+      "law",
+      "entered",
+      "world",
+      "through",
+      "adam",
+      "affects",
+      "humanity",
+      "fall",
+      "doctrine"
+    ],
+    "text": "Sin: any want of conformity to or transgression of God's law. Sin entered the world through Adam, affects all humanity, brings guilt and death, and can be forgiven only through Christ."
+  },
+  {
+    "id": "easton-justification",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Justification",
+    "topics": [
+      "justification",
+      "salvation",
+      "doctrine"
+    ],
+    "keywords": [
+      "justification",
+      "god's",
+      "act",
+      "declaring",
+      "sinners",
+      "righteous",
+      "sight",
+      "through",
+      "imputation",
+      "christ's",
+      "righteousness",
+      "received",
+      "salvation",
+      "doctrine"
+    ],
+    "text": "Justification: God's act of declaring sinners righteous in his sight through the imputation of Christ's righteousness, received by faith alone, apart from works of the law."
+  },
+  {
+    "id": "easton-sanctification",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Sanctification",
+    "topics": [
+      "sanctification",
+      "holiness",
+      "holy spirit"
+    ],
+    "keywords": [
+      "sanctification",
+      "work",
+      "god's",
+      "grace",
+      "believers",
+      "renewed",
+      "whole",
+      "man",
+      "after",
+      "image",
+      "god",
+      "enabled",
+      "holiness",
+      "holy",
+      "spirit"
+    ],
+    "text": "Sanctification: the work of God's grace by which believers are renewed in the whole man after the image of God and enabled more and more to die unto sin and live unto righteousness."
+  },
+  {
+    "id": "easton-regeneration",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Regeneration",
+    "topics": [
+      "regeneration",
+      "new birth",
+      "holy spirit"
+    ],
+    "keywords": [
+      "regeneration",
+      "work",
+      "holy",
+      "spirit",
+      "giving",
+      "new",
+      "spiritual",
+      "life",
+      "dead",
+      "sin",
+      "enabling",
+      "repent",
+      "birth"
+    ],
+    "text": "Regeneration: the work of the Holy Spirit in giving new spiritual life to those dead in sin, enabling them to repent and believe the gospel."
+  },
+  {
+    "id": "easton-atonement",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Atonement",
+    "topics": [
+      "atonement",
+      "cross",
+      "salvation"
+    ],
+    "keywords": [
+      "atonement",
+      "reconciliation",
+      "between",
+      "god",
+      "sinners",
+      "through",
+      "sacrificial",
+      "death",
+      "christ",
+      "bore",
+      "penalty",
+      "sin",
+      "cross",
+      "salvation"
+    ],
+    "text": "Atonement: reconciliation between God and sinners through the sacrificial death of Christ, who bore the penalty of sin and satisfied divine justice on behalf of his people."
+  },
+  {
+    "id": "easton-baptism",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Baptism",
+    "topics": [
+      "baptism",
+      "sacrament",
+      "church"
+    ],
+    "keywords": [
+      "baptism",
+      "sacrament",
+      "instituted",
+      "christ",
+      "signifying",
+      "union",
+      "him",
+      "death",
+      "resurrection",
+      "admission",
+      "church",
+      "cleansing"
+    ],
+    "text": "Baptism: the sacrament instituted by Christ signifying union with him in his death and resurrection, admission into the church, and cleansing from sin, administered with water in the name of the Father, Son, and Holy Spirit."
+  },
+  {
+    "id": "easton-lords-supper",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Lord's Supper",
+    "topics": [
+      "lords supper",
+      "communion",
+      "eucharist"
+    ],
+    "keywords": [
+      "lord's",
+      "supper",
+      "sacrament",
+      "bread",
+      "wine",
+      "signify",
+      "body",
+      "blood",
+      "christ",
+      "proclaiming",
+      "death",
+      "until",
+      "lords",
+      "communion",
+      "eucharist"
+    ],
+    "text": "The Lord's Supper: the sacrament in which bread and wine signify the body and blood of Christ, proclaiming his death until he comes and nourishing believers by faith."
+  },
+  {
+    "id": "easton-church",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Church",
+    "topics": [
+      "church",
+      "ecclesiology",
+      "body of christ"
+    ],
+    "keywords": [
+      "church",
+      "whole",
+      "company",
+      "united",
+      "christ",
+      "faith",
+      "called",
+      "out",
+      "world",
+      "indwelt",
+      "holy",
+      "spirit",
+      "ecclesiology",
+      "body"
+    ],
+    "text": "Church: the whole company of those united to Christ by faith, called out from the world, indwelt by the Holy Spirit, and commissioned to worship God, proclaim the gospel, and observe the ordinances."
+  },
+  {
+    "id": "easton-holy-spirit",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Holy Spirit",
+    "topics": [
+      "holy spirit",
+      "pneumatology",
+      "doctrine"
+    ],
+    "keywords": [
+      "holy",
+      "spirit",
+      "third",
+      "person",
+      "trinity",
+      "equal",
+      "father",
+      "son",
+      "convicts",
+      "sin",
+      "regenerates",
+      "believers",
+      "pneumatology",
+      "doctrine"
+    ],
+    "text": "Holy Spirit: the third person of the Trinity, equal with the Father and the Son, who convicts of sin, regenerates believers, indwells them, sanctifies them, and empowers them for service."
+  },
+  {
+    "id": "easton-covenant",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Covenant",
+    "topics": [
+      "covenant",
+      "promise",
+      "doctrine"
+    ],
+    "keywords": [
+      "covenant",
+      "solemn",
+      "agreement",
+      "ordained",
+      "god",
+      "binds",
+      "himself",
+      "oath",
+      "grant",
+      "blessings",
+      "people",
+      "fulfilled",
+      "promise",
+      "doctrine"
+    ],
+    "text": "Covenant: a solemn agreement ordained by God in which he binds himself by oath to grant blessings upon his people, fulfilled supremely in the new covenant through Christ."
+  },
+  {
+    "id": "easton-messiah",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Messiah",
+    "topics": [
+      "messiah",
+      "christ",
+      "prophecy"
+    ],
+    "keywords": [
+      "messiah",
+      "anointed",
+      "promised",
+      "old",
+      "testament",
+      "fulfilled",
+      "jesus",
+      "christ",
+      "save",
+      "people",
+      "sin",
+      "establish",
+      "prophecy"
+    ],
+    "text": "Messiah: the Anointed One promised in the Old Testament, fulfilled in Jesus Christ, who came to save his people from sin and establish God's kingdom."
+  },
+  {
+    "id": "easton-gospel",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Gospel",
+    "topics": [
+      "gospel",
+      "good news",
+      "salvation"
+    ],
+    "keywords": [
+      "gospel",
+      "good",
+      "news",
+      "christ",
+      "died",
+      "sins",
+      "according",
+      "scriptures",
+      "buried",
+      "rose",
+      "again",
+      "third",
+      "salvation"
+    ],
+    "text": "Gospel: the good news that Christ died for our sins according to the Scriptures, was buried, rose again on the third day, and offers forgiveness and eternal life to all who believe."
+  },
+  {
+    "id": "easton-propitiation",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Propitiation",
+    "topics": [
+      "propitiation",
+      "atonement",
+      "cross"
+    ],
+    "keywords": [
+      "propitiation",
+      "turning",
+      "away",
+      "god's",
+      "wrath",
+      "against",
+      "sin",
+      "through",
+      "sacrifice",
+      "christ",
+      "bore",
+      "penalty",
+      "atonement",
+      "cross"
+    ],
+    "text": "Propitiation: the turning away of God's wrath against sin through the sacrifice of Christ, who bore the penalty sinners deserved."
+  },
+  {
+    "id": "easton-redemption",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Redemption",
+    "topics": [
+      "redemption",
+      "salvation",
+      "cross"
+    ],
+    "keywords": [
+      "redemption",
+      "deliverance",
+      "sin",
+      "death",
+      "through",
+      "payment",
+      "ransom",
+      "christ",
+      "gave",
+      "life",
+      "many",
+      "salvation",
+      "cross"
+    ],
+    "text": "Redemption: deliverance from sin and death through the payment of a ransom; Christ gave his life as a ransom for many."
+  },
+  {
+    "id": "easton-resurrection",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Resurrection",
+    "topics": [
+      "resurrection",
+      "jesus",
+      "hope"
+    ],
+    "keywords": [
+      "resurrection",
+      "raising",
+      "jesus",
+      "bodily",
+      "dead",
+      "guaranteeing",
+      "future",
+      "believers",
+      "confirming",
+      "victory",
+      "over",
+      "sin",
+      "hope"
+    ],
+    "text": "Resurrection: the raising of Jesus bodily from the dead, guaranteeing the future resurrection of believers and confirming his victory over sin and death."
+  },
+  {
+    "id": "easton-angels",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Angels",
+    "topics": [
+      "angels",
+      "creation",
+      "spiritual beings"
+    ],
+    "keywords": [
+      "angels",
+      "spiritual",
+      "beings",
+      "created",
+      "god",
+      "serve",
+      "him",
+      "minister",
+      "believers",
+      "execute",
+      "holy",
+      "worship",
+      "creation"
+    ],
+    "text": "Angels: spiritual beings created by God to serve him, minister to believers, and execute his will. Holy angels worship God; fallen angels, led by Satan, oppose God's purposes."
+  },
+  {
+    "id": "easton-satan",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Satan",
+    "topics": [
+      "satan",
+      "devil",
+      "evil"
+    ],
+    "keywords": [
+      "satan",
+      "adversary",
+      "fallen",
+      "angel",
+      "tempts",
+      "humanity",
+      "accuses",
+      "believers",
+      "opposes",
+      "god's",
+      "kingdom",
+      "yet",
+      "devil",
+      "evil"
+    ],
+    "text": "Satan: the adversary, a fallen angel who tempts humanity, accuses believers, and opposes God's kingdom, yet is defeated by Christ and will be finally judged."
+  },
+  {
+    "id": "easton-heaven",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Heaven",
+    "topics": [
+      "heaven",
+      "eternal life",
+      "hope"
+    ],
+    "keywords": [
+      "heaven",
+      "dwelling",
+      "place",
+      "god",
+      "final",
+      "home",
+      "redeemed",
+      "believers",
+      "enjoy",
+      "eternal",
+      "fellowship",
+      "resurrected",
+      "life",
+      "hope"
+    ],
+    "text": "Heaven: the dwelling place of God and the final home of the redeemed, where believers enjoy eternal fellowship with God in resurrected bodies free from sin and sorrow."
+  },
+  {
+    "id": "easton-hell",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Hell",
+    "topics": [
+      "hell",
+      "judgment",
+      "eternal punishment"
+    ],
+    "keywords": [
+      "hell",
+      "place",
+      "final",
+      "punishment",
+      "impenitent",
+      "described",
+      "scripture",
+      "separation",
+      "god",
+      "enduring",
+      "judgment",
+      "rebellion",
+      "eternal"
+    ],
+    "text": "Hell: the place of final punishment for the impenitent, described in Scripture as separation from God and enduring judgment for rebellion against him."
+  },
+  {
+    "id": "easton-judgment",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Judgment",
+    "topics": [
+      "judgment",
+      "last day",
+      "accountability"
+    ],
+    "keywords": [
+      "judgment",
+      "god's",
+      "righteous",
+      "assessment",
+      "people",
+      "christ",
+      "return",
+      "judge",
+      "living",
+      "dead",
+      "believers",
+      "judged",
+      "last",
+      "day",
+      "accountability"
+    ],
+    "text": "Judgment: God's righteous assessment of all people. Christ will return to judge the living and the dead; believers are judged in mercy through Christ, while unbelievers face condemnation."
+  },
+  {
+    "id": "easton-law",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Law",
+    "topics": [
+      "law",
+      "moses",
+      "commandments"
+    ],
+    "keywords": [
+      "law",
+      "god's",
+      "holy",
+      "standard",
+      "revealed",
+      "especially",
+      "ten",
+      "commandments",
+      "moral",
+      "teaching",
+      "scripture",
+      "showing",
+      "moses"
+    ],
+    "text": "Law: God's holy standard revealed especially in the Ten Commandments and the moral teaching of Scripture, showing sinners their need of a Savior and guiding believers in righteousness."
+  },
+  {
+    "id": "easton-love",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Love",
+    "topics": [
+      "love",
+      "charity",
+      "ethics"
+    ],
+    "keywords": [
+      "love",
+      "supreme",
+      "virtue",
+      "commanded",
+      "god",
+      "one's",
+      "neighbor",
+      "oneself",
+      "god's",
+      "shown",
+      "supremely",
+      "christ's",
+      "charity",
+      "ethics"
+    ],
+    "text": "Love: the supreme virtue commanded by God — love for God with all one's being and love for neighbor as oneself. God's love is shown supremely in Christ's sacrifice."
+  },
+  {
+    "id": "easton-hope",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Hope",
+    "topics": [
+      "hope",
+      "eschatology",
+      "faith"
+    ],
+    "keywords": [
+      "hope",
+      "confident",
+      "expectation",
+      "god's",
+      "future",
+      "blessings",
+      "especially",
+      "resurrection",
+      "eternal",
+      "life",
+      "grounded",
+      "promises",
+      "eschatology",
+      "faith"
+    ],
+    "text": "Hope: confident expectation of God's future blessings, especially resurrection and eternal life, grounded in the promises of God and the resurrection of Christ."
+  },
+  {
+    "id": "easton-worship",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Worship",
+    "topics": [
+      "worship",
+      "praise",
+      "god"
+    ],
+    "keywords": [
+      "worship",
+      "response",
+      "reverence",
+      "adoration",
+      "obedience",
+      "offered",
+      "god",
+      "spirit",
+      "truth",
+      "through",
+      "prayer",
+      "praise"
+    ],
+    "text": "Worship: the response of reverence, adoration, and obedience offered to God in spirit and truth through prayer, praise, Scripture, sacraments, and holy living."
+  },
+  {
+    "id": "easton-discipleship",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Discipleship",
+    "topics": [
+      "discipleship",
+      "following christ",
+      "obedience"
+    ],
+    "keywords": [
+      "discipleship",
+      "learning",
+      "christ",
+      "trusting",
+      "him",
+      "obeying",
+      "commands",
+      "taking",
+      "one's",
+      "cross",
+      "daily",
+      "following",
+      "obedience"
+    ],
+    "text": "Discipleship: learning from Christ, trusting him, and obeying his commands, taking up one's cross daily and following him in faith and service."
+  },
+  {
+    "id": "easton-forgiveness",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Forgiveness",
+    "topics": [
+      "forgiveness",
+      "mercy",
+      "reconciliation"
+    ],
+    "keywords": [
+      "forgiveness",
+      "god's",
+      "gracious",
+      "pardon",
+      "sin",
+      "through",
+      "christ",
+      "corresponding",
+      "duty",
+      "believers",
+      "forgive",
+      "others",
+      "mercy",
+      "reconciliation"
+    ],
+    "text": "Forgiveness: God's gracious pardon of sin through Christ and the corresponding duty of believers to forgive others as God in Christ has forgiven them."
+  },
+  {
+    "id": "easton-mercy",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Mercy",
+    "topics": [
+      "mercy",
+      "compassion",
+      "god"
+    ],
+    "keywords": [
+      "mercy",
+      "god's",
+      "compassion",
+      "toward",
+      "sinners",
+      "deserve",
+      "judgment",
+      "shown",
+      "withholding",
+      "punishment",
+      "granting",
+      "salvation",
+      "god"
+    ],
+    "text": "Mercy: God's compassion toward sinners who deserve judgment, shown in withholding punishment and granting salvation through Christ."
+  },
+  {
+    "id": "easton-righteousness",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Righteousness",
+    "topics": [
+      "righteousness",
+      "holiness",
+      "justification"
+    ],
+    "keywords": [
+      "righteousness",
+      "conformity",
+      "god's",
+      "holy",
+      "standard",
+      "believers",
+      "receive",
+      "christ",
+      "imputation",
+      "called",
+      "live",
+      "righteously",
+      "holiness",
+      "justification"
+    ],
+    "text": "Righteousness: conformity to God's holy standard. Believers receive the righteousness of Christ by imputation and are called to live righteously by the Spirit."
+  },
+  {
+    "id": "easton-temptation",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Temptation",
+    "topics": [
+      "temptation",
+      "sin",
+      "trials"
+    ],
+    "keywords": [
+      "temptation",
+      "solicitation",
+      "sin",
+      "whether",
+      "world",
+      "flesh",
+      "devil",
+      "god",
+      "provides",
+      "way",
+      "escape",
+      "christ",
+      "trials"
+    ],
+    "text": "Temptation: solicitation to sin, whether from the world, the flesh, or the devil. God provides a way of escape, and Christ sympathizes with those who are tempted."
+  },
+  {
+    "id": "easton-providence",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Providence",
+    "topics": [
+      "providence",
+      "god",
+      "sovereignty"
+    ],
+    "keywords": [
+      "providence",
+      "god's",
+      "continuous",
+      "upholding",
+      "governing",
+      "creation",
+      "according",
+      "wise",
+      "holy",
+      "own",
+      "glory",
+      "good",
+      "god",
+      "sovereignty"
+    ],
+    "text": "Providence: God's continuous upholding and governing of all creation according to his wise and holy will for his own glory and the good of his people."
+  },
+  {
+    "id": "easton-predestination",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Predestination",
+    "topics": [
+      "predestination",
+      "election",
+      "sovereignty"
+    ],
+    "keywords": [
+      "predestination",
+      "god's",
+      "eternal",
+      "decree",
+      "whereby",
+      "foreordains",
+      "whatsoever",
+      "comes",
+      "pass",
+      "including",
+      "gracious",
+      "election",
+      "sovereignty"
+    ],
+    "text": "Predestination: God's eternal decree whereby he foreordains whatsoever comes to pass, including the gracious election of believers to salvation in Christ."
+  },
+  {
+    "id": "easton-election",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Election",
+    "topics": [
+      "election",
+      "chosen",
+      "salvation"
+    ],
+    "keywords": [
+      "election",
+      "god's",
+      "gracious",
+      "choice",
+      "sinners",
+      "salvation",
+      "christ",
+      "before",
+      "foundation",
+      "world",
+      "based",
+      "human",
+      "chosen"
+    ],
+    "text": "Election: God's gracious choice of sinners unto salvation in Christ before the foundation of the world, not based on human merit but on his sovereign love."
+  },
+  {
+    "id": "easton-assurance",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Assurance",
+    "topics": [
+      "assurance",
+      "eternal security",
+      "faith"
+    ],
+    "keywords": [
+      "assurance",
+      "confidence",
+      "believers",
+      "christ",
+      "persevere",
+      "grounded",
+      "god's",
+      "promises",
+      "witness",
+      "spirit",
+      "fruit",
+      "faith",
+      "eternal",
+      "security"
+    ],
+    "text": "Assurance: the confidence believers may have that they are in Christ and will persevere, grounded in God's promises, the witness of the Spirit, and the fruit of faith."
+  },
+  {
+    "id": "easton-apostle",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Apostle",
+    "topics": [
+      "apostle",
+      "church",
+      "new testament"
+    ],
+    "keywords": [
+      "apostle",
+      "sent",
+      "authority",
+      "especially",
+      "twelve",
+      "paul",
+      "eyewitnesses",
+      "risen",
+      "christ",
+      "commissioned",
+      "establish",
+      "church",
+      "new",
+      "testament"
+    ],
+    "text": "Apostle: one sent with authority, especially the twelve and Paul, eyewitnesses of the risen Christ commissioned to establish the church and authoritatively proclaim the gospel."
+  },
+  {
+    "id": "easton-prophet",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Prophet",
+    "topics": [
+      "prophet",
+      "prophecy",
+      "old testament"
+    ],
+    "keywords": [
+      "prophet",
+      "speaks",
+      "god's",
+      "word",
+      "people",
+      "foretelling",
+      "future",
+      "events",
+      "forth",
+      "telling",
+      "christ",
+      "supreme",
+      "prophecy",
+      "old",
+      "testament"
+    ],
+    "text": "Prophet: one who speaks God's word to his people, foretelling future events and forth-telling God's will. Christ is the supreme Prophet, and the Scriptures are the prophetic word made sure."
+  },
+  {
+    "id": "easton-priest",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Priest",
+    "topics": [
+      "priest",
+      "sacrifice",
+      "christ"
+    ],
+    "keywords": [
+      "priest",
+      "offers",
+      "sacrifice",
+      "intercedes",
+      "people",
+      "christ",
+      "great",
+      "high",
+      "offered",
+      "himself",
+      "once",
+      "ever"
+    ],
+    "text": "Priest: one who offers sacrifice and intercedes for the people. Christ is the great High Priest who offered himself once for all and ever lives to intercede for believers."
+  },
+  {
+    "id": "easton-king",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — King",
+    "topics": [
+      "king",
+      "kingdom",
+      "christ"
+    ],
+    "keywords": [
+      "king",
+      "ruler",
+      "authority",
+      "christ",
+      "kings",
+      "reigning",
+      "now",
+      "coming",
+      "again",
+      "judge",
+      "establish",
+      "kingdom"
+    ],
+    "text": "King: a ruler with authority. Christ is King of kings, reigning now and coming again to judge and establish his kingdom in fullness."
+  },
+  {
+    "id": "easton-miracle",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Miracle",
+    "topics": [
+      "miracle",
+      "signs",
+      "jesus"
+    ],
+    "keywords": [
+      "miracle",
+      "mighty",
+      "work",
+      "wrought",
+      "god",
+      "reveals",
+      "power",
+      "authenticates",
+      "messengers",
+      "especially",
+      "miracles",
+      "jesus",
+      "signs"
+    ],
+    "text": "Miracle: a mighty work wrought by God that reveals his power and authenticates his messengers, especially the miracles of Jesus which display the inbreaking of God's kingdom."
+  },
+  {
+    "id": "easton-parable",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Parable",
+    "topics": [
+      "parable",
+      "jesus",
+      "teaching"
+    ],
+    "keywords": [
+      "parable",
+      "earthly",
+      "story",
+      "heavenly",
+      "meaning",
+      "used",
+      "jesus",
+      "teach",
+      "about",
+      "kingdom",
+      "god",
+      "revealing",
+      "teaching"
+    ],
+    "text": "Parable: an earthly story with a heavenly meaning used by Jesus to teach about the kingdom of God, revealing truth to disciples and concealing it from the hard-hearted."
+  },
+  {
+    "id": "easton-canon",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Canon",
+    "topics": [
+      "canon",
+      "scripture",
+      "bible"
+    ],
+    "keywords": [
+      "canon",
+      "collection",
+      "books",
+      "recognized",
+      "authoritative",
+      "word",
+      "god",
+      "consisting",
+      "old",
+      "new",
+      "testaments",
+      "inspired",
+      "scripture",
+      "bible"
+    ],
+    "text": "Canon: the collection of books recognized as the authoritative Word of God, consisting of the Old and New Testaments, inspired by the Holy Spirit and sufficient for faith and practice."
+  },
+  {
+    "id": "easton-inspiration",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Inspiration",
+    "topics": [
+      "inspiration",
+      "scripture",
+      "bible"
+    ],
+    "keywords": [
+      "inspiration",
+      "work",
+      "holy",
+      "spirit",
+      "authors",
+      "scripture",
+      "wrote",
+      "exactly",
+      "god",
+      "intended",
+      "bible",
+      "breathed"
+    ],
+    "text": "Inspiration: the work of the Holy Spirit by which the authors of Scripture wrote exactly what God intended, so that the Bible is God-breathed and without error in all it affirms."
+  },
+  {
+    "id": "easton-heresy",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Heresy",
+    "topics": [
+      "heresy",
+      "false teaching",
+      "doctrine"
+    ],
+    "keywords": [
+      "heresy",
+      "serious",
+      "doctrinal",
+      "error",
+      "departs",
+      "faith",
+      "once",
+      "delivered",
+      "saints",
+      "especially",
+      "denial",
+      "core",
+      "false",
+      "teaching",
+      "doctrine"
+    ],
+    "text": "Heresy: serious doctrinal error that departs from the faith once delivered to the saints, especially denial of core truths about God, Christ, salvation, or Scripture."
+  },
+  {
+    "id": "easton-idolatry",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Idolatry",
+    "topics": [
+      "idolatry",
+      "worship",
+      "sin"
+    ],
+    "keywords": [
+      "idolatry",
+      "giving",
+      "creature",
+      "worship",
+      "due",
+      "god",
+      "alone",
+      "whether",
+      "through",
+      "images",
+      "false",
+      "gods",
+      "sin"
+    ],
+    "text": "Idolatry: giving to any creature the worship due to God alone, whether through images, false gods, or ultimate devotion to created things."
+  },
+  {
+    "id": "easton-sabbath",
+    "sourceId": "easton",
+    "reference": "Easton's Bible Dictionary — Sabbath",
+    "topics": [
+      "sabbath",
+      "rest",
+      "worship"
+    ],
+    "keywords": [
+      "sabbath",
+      "day",
+      "rest",
+      "instituted",
+      "god",
+      "pointing",
+      "creation",
+      "redemption",
+      "eternal",
+      "under",
+      "new",
+      "covenant",
+      "worship"
+    ],
+    "text": "Sabbath: the day of rest instituted by God, pointing to creation, redemption, and eternal rest. Under the new covenant, believers gather on the Lord's Day to worship the risen Christ."
+  }
+]
