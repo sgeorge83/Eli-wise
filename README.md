@@ -22,7 +22,7 @@ Chunks live in `knowledge/chunks.json`. Add more passages and references there t
 - Inline and UI source citations
 - Reader-friendly parchment UI with navy & gold branding
 - Session-based conversation (up to 40 questions, last 20 turns sent to AI)
-- Default model: `gpt-4o-mini` (lowest-cost OpenAI model suited for this app)
+- Default model: `gpt-4.1-mini` (low-cost OpenAI model suited for this app)
 
 ## Session limits
 
@@ -40,7 +40,7 @@ Chunks live in `knowledge/chunks.json`. Add more passages and references there t
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `OPENAI_API_KEY` | Yes | Your OpenAI API key |
-| `OPENAI_MODEL` | No | Defaults to `gpt-4o-mini` (recommended for low cost) |
+| `OPENAI_MODEL` | No | Defaults to `gpt-4.1-mini` (recommended for low cost) |
 
 `ASSISTANT_ID` is **no longer required** — the app uses RAG + Chat Completions instead of the Assistants API.
 
